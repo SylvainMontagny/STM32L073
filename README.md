@@ -26,7 +26,6 @@ Utilisation de l'application :
 1. Programmer votre carte (utiliser une des deux méthodes ci dessus)
 2. Ouvrez un terminal série : Putty, hyperterm, ...
 3. Configurez le port COM correspondant à votre carte nucléo : 115200, 8 bits, sans parité.
-4. Reset la carte, le menu suivant doit apparaitre dans votre terminal :
-Programme de test des applications
-(g) GPIO
-(a) ADC
+4. Reset la carte, le menu suivant doit apparaitre dans votre terminal
+5. Test 
+6. Test encore
