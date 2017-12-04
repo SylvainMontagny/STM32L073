@@ -7,7 +7,7 @@
 
 #include "adc.h"
 
-void test_adc(state mode){
+void test_adc(state etat){
 	uint32_t sortir_etat=0;
 	uint16_t value_IN0, value_TEMP, value_CALIB,value_DAC=0;
 	uint16_t tab_value_DAC[]={0,500,1000,1500,2000,2500,3000,3500,4000,4095};
@@ -15,7 +15,7 @@ void test_adc(state mode){
 	uint32_t i;
 	float tension;
 
-	switch(mode){
+	switch(etat){
 		case TEST_ADC_IN0 :
 			snprintf(msg,TAILLE_BUF,"ADC : Lecture analogique sur IN0 : PA0 (A0 Nucléo)\r\n");
 			HAL_UART_Transmit(&huart2,msg,strlen(msg),1000);
@@ -125,9 +125,10 @@ void test_adc(state mode){
 				HAL_UART_Transmit(&huart2,msg,strlen(msg),HAL_MAX_DELAY);
 				HAL_ADC_Stop(&hadc);
 			}
-
 			break;
 
+		default:
+			break;
 	}
 
 }

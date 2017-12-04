@@ -11,7 +11,7 @@
 #include "main.h"
 #include "stm32l0xx_hal.h"
 
-void test_gpio(state mode);
+void test_gpio(state etat);
 
 /***** Variables externes *****/
 extern char msg[TAILLE_BUF];

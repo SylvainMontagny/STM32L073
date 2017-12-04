@@ -6,15 +6,6 @@
  */
 
 #include "print_menu.h"
-#include "stm32l0xx_hal.h"
-#include "main.h"
-
-extern uint8_t msg[TAILLE_BUF];
-extern UART_HandleTypeDef huart2;
-extern uint8_t rx_buffer[TAILLE_BUF];
-extern uint8_t ready;
-extern uint8_t caractere;
-extern state etat_courant;
 
 void print_menu(void){
 	snprintf(msg,TAILLE_BUF,"\r\n\r\n***** Programme TEST des périphériques *****\r\n ");
@@ -30,8 +21,9 @@ void print_menu(void){
 	snprintf(msg,TAILLE_BUF,"\t(i) Input Capture TIM3\r\n");
 	HAL_UART_Transmit(&huart2,msg,strlen(msg),1000);
 
+	/***** Activation IT UART2 RX *****/
 	HAL_UART_Receive_IT(&huart2,&caractere,1);
-
+	/***** Test sortie du menu *****/
 	do{
 		while(ready!=1);
 		ready=0;
@@ -39,10 +31,10 @@ void print_menu(void){
 	while(rx_buffer[0]!='g' && rx_buffer[0]!='a' && rx_buffer[0]!='r' && rx_buffer[0]!='b' && rx_buffer[0]!='i');
 
 	switch(rx_buffer[0]){
-		case 'g' :etat_courant=MENU_GPIO_PRINT;	break;
-		case 'a' :etat_courant=MENU_ADC_PRINT;	break;
-		case 'r' :etat_courant=MENU_RTC_PRINT;	break;
-		case 'b' :etat_courant=TEST_BASIC_TIM6;	break;
+		case 'g' :etat_courant=MENU_GPIO_PRINT;			break;
+		case 'a' :etat_courant=MENU_ADC_PRINT;			break;
+		case 'r' :etat_courant=MENU_RTC_PRINT;			break;
+		case 'b' :etat_courant=TEST_BASIC_TIM6;			break;
 		case 'i' :etat_courant=TEST_INPUT_CAPTURE_TIM3;	break;
 	}
 
@@ -57,7 +49,7 @@ void print_menu_gpio(){
 	HAL_UART_Transmit(&huart2,msg,strlen(msg),1000);
 	snprintf(msg,TAILLE_BUF,"(I) Mode IT (Interruption)\r\n");
 	HAL_UART_Transmit(&huart2,msg,strlen(msg),1000);
-
+	/***** Test sortie du menu *****/
 	do{
 		while(ready!=1);
 		ready=0;
@@ -66,8 +58,8 @@ void print_menu_gpio(){
 
 	switch(rx_buffer[0]){
 		case 'P' :etat_courant=TEST_GPIO_POLLING;	break;
-		case 'I' :etat_courant=TEST_GPIO_IT;	break;
-		case 'c' :etat_courant=MENU_START_PRINT; break;
+		case 'I' :etat_courant=TEST_GPIO_IT;		break;
+		case 'c' :etat_courant=MENU_START_PRINT; 	break;
 	}
 
 }
@@ -82,8 +74,7 @@ void print_menu_rtc(){
 	HAL_UART_Transmit(&huart2,msg,strlen(msg),1000);
 	snprintf(msg,TAILLE_BUF,"(A) Alarme (IT) toutes les secondes\r\n");
 	HAL_UART_Transmit(&huart2,msg,strlen(msg),1000);
-
-
+	/***** Test sortie du menu *****/
 	do{
 		while(ready!=1);
 		ready=0;
@@ -91,10 +82,10 @@ void print_menu_rtc(){
 	while(rx_buffer[0]!='G' && rx_buffer[0]!='S' && rx_buffer[0]!='A' && rx_buffer[0]!='c');
 
 	switch(rx_buffer[0]){
-		case 'G' :etat_courant=TEST_RTC_GET;	break;
-		case 'S' :etat_courant=TEST_RTC_SET;	break;
-		case 'A' :etat_courant=TEST_RTC_ALARM;	break;
-		case 'c' :etat_courant=MENU_START_PRINT; break;
+		case 'G' :etat_courant=TEST_RTC_GET;		break;
+		case 'S' :etat_courant=TEST_RTC_SET;		break;
+		case 'A' :etat_courant=TEST_RTC_ALARM;		break;
+		case 'c' :etat_courant=MENU_START_PRINT; 	break;
 	}
 
 }
@@ -108,7 +99,7 @@ void print_menu_adc(void){
 	HAL_UART_Transmit(&huart2,msg,strlen(msg),1000);
 	snprintf(msg,TAILLE_BUF,"(C) Calibration ADC\r\n");
 	HAL_UART_Transmit(&huart2,msg,strlen(msg),1000);
-
+	/***** Test sortie du menu *****/
 	do{
 			while(ready!=1);
 			ready=0;
@@ -121,6 +112,5 @@ void print_menu_adc(void){
 			case 'C' :etat_courant=TEST_ADC_CALIB;			break;
 			case 'c' :etat_courant=MENU_START_PRINT; 		break;
 		}
-
 }
 

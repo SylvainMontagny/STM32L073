@@ -38,6 +38,7 @@
 /* USER CODE BEGIN Includes */
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 /* USER CODE END Includes */
 
@@ -57,7 +58,11 @@
 #define TCK_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
+
+/***** Taille du buffer d'émmission pour USART2 TX *****/
 #define TAILLE_BUF 100
+
+/***** Machine d'état du projet *****/
 typedef enum {	MENU_START_PRINT,
 				MENU_GPIO_PRINT,
 				TEST_GPIO_POLLING,

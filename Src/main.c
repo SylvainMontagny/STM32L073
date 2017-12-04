@@ -66,13 +66,16 @@ state etat_courant=MENU_START_PRINT;
 char msg[TAILLE_BUF];
 uint8_t rx_buffer[TAILLE_BUF]={0};
 uint8_t caractere;
-uint32_t nbr_caractere=0;
 uint8_t ready=0;
+uint8_t captureDone=0;
+
+uint16_t captures[2];
+
+uint32_t nbr_caractere=0;
+
 RTC_DateTypeDef my_date;
 RTC_TimeTypeDef my_time;
-uint16_t captures[2];
-uint32_t captureDone=0;
-uint16_t captures[2];
+
 
 /* USER CODE END PV */
 
@@ -91,62 +94,7 @@ static void MX_I2C2_Init(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
-	HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);
-	HAL_UART_Transmit(&huart2,&caractere,1,100);
-	if(nbr_caractere==TAILLE_BUF){
-		nbr_caractere=0;
-		HAL_UART_Transmit(&huart2,&caractere,1,100);
-	}
-	if(caractere=='\b'){				//Backspace
-		if(nbr_caractere!=0) {
-			nbr_caractere--;
-		}
-		HAL_UART_Transmit(&huart2," \b",3,100);
-	}
-	else if(caractere==13){				// CR
-		HAL_UART_Transmit(&huart2,(uint8_t *)"\r\n",2,100);
-		rx_buffer[nbr_caractere]=0;
-		if( !( ( (etat_courant!=TEST_RTC_SET) && (etat_courant!=TEST_ADC_IN0) ) && (nbr_caractere!=1) ) ) {
-			ready=1;
-		}
-		nbr_caractere=0;
-	}
-	else{
-		rx_buffer[nbr_caractere]=caractere;
-		nbr_caractere++;
-	}
-	HAL_UART_Receive_IT(&huart2,&caractere,1);
-}
 
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
-	if (GPIO_Pin==GPIO_PIN_13){
-		HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);
-		snprintf(msg,TAILLE_BUF,"IT BP Pin PC13 (Rising Edge) \r\n");
-		HAL_UART_Transmit(&huart2,(uint8_t *)msg,strlen(msg),1000);
-	}
-}
-
-void HAL_RTC_AlarmAEventCallback(RTC_HandleTypeDef *hrtc){
-	HAL_RTC_GetTime(hrtc,&my_time,RTC_FORMAT_BIN);
-	HAL_RTC_GetDate(hrtc,&my_date,RTC_FORMAT_BIN);					// GetDate doit obligatoirement suivre un GetTime, sinon GetTime reste à la meme valeur
-	snprintf(msg,TAILLE_BUF,"RTC interrupt \t\t Time : %02u:%02u:%02u                   \r\n",my_time.Hours,my_time.Minutes,my_time.Seconds);
-	HAL_UART_Transmit(&huart2,(uint8_t *)msg,strlen(msg),1000);
-	HAL_RTC_GetTime(hrtc,& my_time,RTC_FORMAT_BIN);			// hrtc et non pas &hrtc / hrtc est ici une variable locale qui provient du passage de paramètres... très perturbant !!!
-}
-
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-	HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);
-}
-
-
-void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim){
-
-	snprintf(msg,TAILLE_BUF,"Passage IT DMA\r\n");
-	HAL_UART_Transmit(&huart2,msg,strlen(msg),HAL_MAX_DELAY);
-	captureDone=1;
-
-}
 
 
 /* USER CODE END PFP */
@@ -189,6 +137,8 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
+  /***** Desactivation des IRQ BP(User) et RTC *****/
   HAL_NVIC_DisableIRQ(EXTI4_15_IRQn);
   HAL_NVIC_DisableIRQ(RTC_IRQn);
 

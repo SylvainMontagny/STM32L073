@@ -5,6 +5,7 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../Src/adc.c \
+../Src/callback.c \
 ../Src/gpio.c \
 ../Src/main.c \
 ../Src/print_menu.c \
@@ -16,6 +17,7 @@ C_SRCS += \
 
 OBJS += \
 ./Src/adc.o \
+./Src/callback.o \
 ./Src/gpio.o \
 ./Src/main.o \
 ./Src/print_menu.o \
@@ -27,6 +29,7 @@ OBJS += \
 
 C_DEPS += \
 ./Src/adc.d \
+./Src/callback.d \
 ./Src/gpio.d \
 ./Src/main.d \
 ./Src/print_menu.d \

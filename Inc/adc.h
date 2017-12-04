@@ -15,7 +15,7 @@
 #define TS_CAL1_ADDR  ((uint16_t*) ((uint32_t) 0x1FF8007A))
 #define TS_CAL2_ADDR  ((uint16_t*) ((uint32_t) 0x1FF8007E))
 
-void test_adc(state mode);
+void test_adc(state etat);
 
 /***** Variables externes *****/
 extern char msg[TAILLE_BUF];
