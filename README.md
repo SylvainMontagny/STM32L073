@@ -1,11 +1,11 @@
 ## Programme Test pour STM32L073 (Nucléo L073RZ)  
 
-Projet réalisé sous System Workbench : SW4STM32
+Projet réalisé sous System Workbench (SW4STM32)
 
 
 ### Programmation de la carte :
-1. Télécharger le fichier /Debug/STM32L073_Nucleo.bin
-2. Brancher votre carte nucléo sur un port USB de votre Ordinateur, un nouveau lecteur NODE_L073RZ doit apparaître dans votre explorateur
+1. Télécharger le fichier /Debug/STM32L073_Nucleo.bin depuis Github
+2. Brancher votre carte Nucléo L073RZ sur un port USB de votre ordinateur, un nouveau lecteur [ NODE_L073RZ ] doit apparaître dans votre explorateur
 3. Faire glisser le fichier STM32L073_Nucleo.bin dans le lecteur NODE_L073RZ. La carte est prête.
 
 ### Compilation du projet :
@@ -24,3 +24,10 @@ Projet réalisé sous System Workbench : SW4STM32
 3. Configurez le port COM correspondant à votre carte nucléo : 115200, 8 bits, sans parité.
 4. Reset la carte, le menu suivant doit apparaitre dans votre terminal :
 GPIO
+ 
+**Programme TEST des périphériques**  
+        (g) GPIO  
+        (a) ADC  
+        (r) RTC  
+        (b) Basic Timer TIM6  
+        (i) Input Capture TIM3  
