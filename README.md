@@ -24,9 +24,10 @@ Projet réalisé sous System Workbench (SW4STM32)
 3. Configurer le port COM : 115200 bps, 8 bits, sans parité.
 4. Reseter la carte, le menu suivant doit apparaitre dans votre terminal :
  
-**Programme TEST des périphériques**  
-        (g) GPIO  
-        (a) ADC  
-        (r) RTC  
-        (b) Basic Timer TIM6  
-        (i) Input Capture TIM3  
+**Programme TEST des périphériques**
+
+    (g) GPIO  
+    (a) ADC  
+    (r) RTC  
+    (b) Basic Timer TIM6  
+    (i) Input Capture TIM3  
