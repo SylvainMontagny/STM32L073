@@ -6,22 +6,6 @@
  */
 
 #include "adc.h"
-#include "stm32l0xx_hal.h"
-#include "main.h"
-
-
-#define TS_CAL1_ADDR  ((uint16_t*) ((uint32_t) 0x1FF8007A))
-#define TS_CAL2_ADDR  ((uint16_t*) ((uint32_t) 0x1FF8007E))
-
-void test_adc(state mode);
-
-extern uint8_t msg[TAILLE_BUF];
-extern UART_HandleTypeDef huart2;
-ADC_HandleTypeDef hadc;
-DAC_HandleTypeDef hdac;
-extern uint8_t rx_buffer[TAILLE_BUF];
-extern uint8_t ready;
-
 
 void test_adc(state mode){
 	uint32_t sortir_etat=0;
