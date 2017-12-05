@@ -53,6 +53,10 @@ I2C_HandleTypeDef hi2c2;
 
 RTC_HandleTypeDef hrtc;
 
+SPI_HandleTypeDef hspi2;
+DMA_HandleTypeDef hdma_spi2_rx;
+DMA_HandleTypeDef hdma_spi2_tx;
+
 TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim6;
 DMA_HandleTypeDef hdma_tim3_ch1;
@@ -63,8 +67,10 @@ UART_HandleTypeDef huart2;
 /* Private variables ---------------------------------------------------------*/
 
 state etat_courant=MENU_START_PRINT;
-char msg[TAILLE_BUF];
-uint8_t rx_buffer[TAILLE_BUF]={0};
+uint8_t rx_buffer_uart[TAILLE_BUF_UART_RX]={0};
+uint8_t tx_buffer_uart[TAILLE_BUF_UART_TX]={0};
+uint8_t rx_buffer_spi[TAILLE_BUF_SPI]={0};
+uint8_t tx_buffer_spi[TAILLE_BUF_SPI]={0,11,22,33,44,55,66,77,88,99};
 uint8_t caractere;
 uint8_t ready=0;
 uint8_t captureDone=0;
@@ -90,6 +96,7 @@ static void MX_DAC_Init(void);
 static void MX_RTC_Init(void);
 static void MX_TIM6_Init(void);
 static void MX_TIM3_Init(void);
+static void MX_SPI2_Init(void);
 static void MX_I2C2_Init(void);
 
 /* USER CODE BEGIN PFP */
@@ -126,6 +133,7 @@ int main(void)
   MX_RTC_Init();
   MX_TIM6_Init();
   MX_TIM3_Init();
+  MX_SPI2_Init();
   MX_I2C2_Init();
 
   /* USER CODE BEGIN 2 */
@@ -144,6 +152,8 @@ int main(void)
 
   while (1)
   {
+
+
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
@@ -162,6 +172,7 @@ int main(void)
 	  case TEST_RTC_ALARM			: test_rtc(TEST_RTC_ALARM);			etat_courant=MENU_RTC_PRINT;	break;
 	  case TEST_BASIC_TIM6			: test_basic_tim6();				etat_courant=MENU_START_PRINT;	break;
 	  case TEST_INPUT_CAPTURE_TIM3	: test_input_capture_tim3();		etat_courant=MENU_START_PRINT;	break;
+	  case TEST_SPI					: test_spi();						etat_courant=MENU_START_PRINT;	break;
 	  }
   }
   /* USER CODE END 3 */
@@ -405,6 +416,29 @@ static void MX_RTC_Init(void)
 
 }
 
+/* SPI2 init function */
+static void MX_SPI2_Init(void)
+{
+
+  hspi2.Instance = SPI2;
+  hspi2.Init.Mode = SPI_MODE_MASTER;
+  hspi2.Init.Direction = SPI_DIRECTION_2LINES;
+  hspi2.Init.DataSize = SPI_DATASIZE_8BIT;
+  hspi2.Init.CLKPolarity = SPI_POLARITY_LOW;
+  hspi2.Init.CLKPhase = SPI_PHASE_1EDGE;
+  hspi2.Init.NSS = SPI_NSS_SOFT;
+  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_32;
+  hspi2.Init.FirstBit = SPI_FIRSTBIT_MSB;
+  hspi2.Init.TIMode = SPI_TIMODE_DISABLE;
+  hspi2.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+  hspi2.Init.CRCPolynomial = 7;
+  if (HAL_SPI_Init(&hspi2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+}
+
 /* TIM3 init function */
 static void MX_TIM3_Init(void)
 {
@@ -513,7 +547,7 @@ static void MX_DMA_Init(void)
 
   /* DMA interrupt init */
   /* DMA1_Channel4_5_6_7_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel4_5_6_7_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(DMA1_Channel4_5_6_7_IRQn, 2, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel4_5_6_7_IRQn);
 
 }

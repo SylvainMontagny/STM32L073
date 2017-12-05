@@ -13,8 +13,8 @@ void test_gpio(state etat){
 
 	switch(etat){
 	case TEST_GPIO_POLLING :
-		snprintf(msg,TAILLE_BUF,"Mode Scrutation\r\nLED (LD3) allumée si BP (USER) appuyé\r\n");
-		HAL_UART_Transmit(&huart2,msg,strlen(msg),1000);
+		snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"Mode Scrutation\r\nLED (LD3) allumée si BP (USER) appuyé\r\n");
+		HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
 		/***** Configuration PIN PC13 en Input *****/
 		HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
 		GPIO_InitStruct.Pin = GPIO_PIN_13;
@@ -26,7 +26,7 @@ void test_gpio(state etat){
 			HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,!HAL_GPIO_ReadPin(GPIOC,GPIO_PIN_13));
 			if(ready==1){
 				ready=0;
-				if(rx_buffer[0]=='c'){
+				if(rx_buffer_uart[0]=='c'){
 					sortir_etat=1;
 				}
 			}
@@ -35,8 +35,8 @@ void test_gpio(state etat){
 		break;
 
 	case TEST_GPIO_IT :
-		snprintf(msg,TAILLE_BUF,"Mode Interruption\r\nUn appuis sur le BP (USER) Toggle la LED (LD3) \r\n");
-		HAL_UART_Transmit(&huart2,msg,strlen(msg),1000);
+		snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"Mode Interruption\r\nUn appuis sur le BP (USER) Toggle la LED (LD3) \r\n");
+		HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
 		/***** Configuration PIN PC13 en IT *****/
 		HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
 		GPIO_InitStruct.Pin = GPIO_PIN_13;
@@ -51,7 +51,7 @@ void test_gpio(state etat){
 				while(ready!=1);
 				ready=0;
 		}
-		while(rx_buffer[0]!='c');
+		while(rx_buffer_uart[0]!='c');
 		/**** Sortie du menu *****/
 		HAL_NVIC_DisableIRQ(EXTI4_15_IRQn);
 		break;

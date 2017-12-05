@@ -13,10 +13,14 @@
 
 UART_HandleTypeDef huart2;
 
-char msg[TAILLE_BUF];
+extern uint8_t tx_buffer_uart[TAILLE_BUF_UART_TX];
+extern uint8_t rx_buffer_uart[TAILLE_BUF_UART_RX];
+
+extern uint8_t rx_buffer_spi[TAILLE_BUF_SPI];
+extern uint8_t tx_buffer_spi[TAILLE_BUF_SPI];
 
 extern uint8_t caractere;
-extern uint8_t rx_buffer[TAILLE_BUF];
+extern uint8_t rx_buffer_uart[TAILLE_BUF_UART_RX];
 extern uint8_t captureDone;
 extern uint8_t ready;
 

@@ -18,11 +18,13 @@
 void test_adc(state etat);
 
 /***** Variables externes *****/
-extern char msg[TAILLE_BUF];
+extern uint8_t ready;
+
+extern uint8_t tx_buffer_uart[TAILLE_BUF_UART_TX];
+extern uint8_t rx_buffer_uart[TAILLE_BUF_UART_RX];
+
 extern UART_HandleTypeDef huart2;
 extern ADC_HandleTypeDef hadc;
 extern DAC_HandleTypeDef hdac;
-extern uint8_t rx_buffer[TAILLE_BUF];
-extern uint8_t ready;
 
 #endif /* ADC_H_ */

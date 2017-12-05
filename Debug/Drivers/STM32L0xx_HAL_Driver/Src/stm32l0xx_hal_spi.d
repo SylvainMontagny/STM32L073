@@ -1,5 +1,5 @@
-Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_dac.o: \
- ../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_dac.c \
+Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_spi.o: \
+ ../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_spi.c \
  C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal.h \
  C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Inc/stm32l0xx_hal_conf.h \
  C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Inc/main.h \

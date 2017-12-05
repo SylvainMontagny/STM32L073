@@ -9,10 +9,10 @@
 
 
 void test_basic_tim6(void){
-	snprintf(msg,TAILLE_BUF,"\r\n***** Test Basic TIM6 ***** Touche 'c' pour sortir\r\n");
-	HAL_UART_Transmit(&huart2,msg,strlen(msg),1000);
-	snprintf(msg,TAILLE_BUF,"***** Clignotement USER LED par IT TIM6 *****\r\n");
-	HAL_UART_Transmit(&huart2,msg,strlen(msg),1000);
+	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"\r\n***** Test Basic TIM6 ***** Touche 'c' pour sortir\r\n");
+	HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
+	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"***** Clignotement USER LED par IT TIM6 *****\r\n");
+	HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
 	/***** Démarrage TIM6 en intérruption *****/
 	HAL_TIM_Base_Start_IT(&htim6);
 	/***** Test sortie du menu *****/
@@ -20,7 +20,7 @@ void test_basic_tim6(void){
 		while(ready!=1);
 		ready=0;
 	}
-	while(rx_buffer[0]!='c');
+	while(rx_buffer_uart[0]!='c');
 	/***** Sortie du menu *****/
 	HAL_TIM_Base_Stop_IT(&htim6);
 
@@ -30,10 +30,10 @@ void test_basic_tim6(void){
 void test_input_capture_tim3(void){
 	uint32_t diffCapture;
 	float frequency;
-	snprintf(msg,TAILLE_BUF,"\r\n***** Test Input Capture TIM3 ***** \r\n");
-	HAL_UART_Transmit(&huart2,msg,strlen(msg),1000);
-	snprintf(msg,TAILLE_BUF,"***** Mesure Fréquence sur broche PA6 *****\r\n");
-	HAL_UART_Transmit(&huart2,msg,strlen(msg),1000);
+	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"\r\n***** Test Input Capture TIM3 ***** \r\n");
+	HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
+	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"***** Mesure Fréquence sur broche PA6 *****\r\n");
+	HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
 	/***** Input Capture en Mode DMA *****/
 	HAL_TIM_IC_Start_DMA(&htim3,TIM_CHANNEL_1, captures,2);			// Demarrage du DMA pour capture de 2 fronts montants
 	HAL_TIM_Base_Start_IT(&htim6);									// Demarrage de TIM6 pour clignotement LED si on souhaite mesurer la fréquence de PA5 (LED)
@@ -50,7 +50,7 @@ void test_input_capture_tim3(void){
 	}
 	frequency= (float)(HAL_RCC_GetPCLK1Freq()) / (float)(htim3.Instance->PSC + 1);
 	frequency=frequency /diffCapture;
-	snprintf(msg,TAILLE_BUF,"Capture 0 : %4u \r\nCapture 1 : %4u\r\nCalcul Frequence : %.3f Hertz \r\n", captures[0], captures[1], frequency);
-	HAL_UART_Transmit(&huart2,msg,strlen(msg),HAL_MAX_DELAY);
+	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"Capture 0 : %4u \r\nCapture 1 : %4u\r\nCalcul Frequence : %.3f Hertz \r\n", captures[0], captures[1], frequency);
+	HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),HAL_MAX_DELAY);
 }
 

@@ -183,7 +183,7 @@
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders" />
 	<storageModule moduleId="refreshScope" versionNumber="2">
 		<configuration artifactName="${ProjName}" configurationName="Debug">
-			<resource resourceType="PROJECT" workspacePath="Test_peripheral_4" />
+			<resource resourceType="PROJECT" workspacePath="STM32L073_Nucleo" />
 		</configuration>
 	</storageModule>
 </cproject>

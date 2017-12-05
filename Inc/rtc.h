@@ -14,10 +14,12 @@
 void test_rtc(state etat);
 
 /***** Variables externes *****/
-extern char msg[TAILLE_BUF];
-extern UART_HandleTypeDef huart2;
-extern uint8_t rx_buffer[TAILLE_BUF];
 extern uint8_t ready;
+
+extern uint8_t tx_buffer_uart[TAILLE_BUF_UART_TX];
+extern uint8_t rx_buffer_uart[TAILLE_BUF_UART_RX];
+
+extern UART_HandleTypeDef huart2;
 extern RTC_HandleTypeDef hrtc;
 extern RTC_DateTypeDef my_date;
 extern RTC_TimeTypeDef my_time;

@@ -26,20 +26,20 @@ void test_rtc(state etat){
 				HAL_RTC_GetTime(&hrtc,&my_time,RTC_FORMAT_BIN);
 				HAL_RTC_GetDate(&hrtc,&my_date,RTC_FORMAT_BIN);
 				/***** Affichage Time et Date *****/
-				snprintf(msg,TAILLE_BUF,"Date : %02u/%02u/%02u \t\t Time : %02u:%02u:%02u                   \r", my_date.Date,my_date.Month,my_date.Year,my_time.Hours,my_time.Minutes,my_time.Seconds);
-				HAL_UART_Transmit(&huart2,msg,strlen(msg),1000);
+				snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"Date : %02u/%02u/%02u \t\t Time : %02u:%02u:%02u                   \r", my_date.Date,my_date.Month,my_date.Year,my_time.Hours,my_time.Minutes,my_time.Seconds);
+				HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
 				HAL_Delay(100);
 				/***** Test Sortie du menu *****/
 				if(ready==1){
 					ready=0;
-					if(rx_buffer[0]=='c'){
+					if(rx_buffer_uart[0]=='c'){
 						sortir_etat=1;
 					}
 				}
 			}
 			/***** Sortie du menu *****/
-			snprintf(msg,TAILLE_BUF,"\r\n");
-			HAL_UART_Transmit(&huart2,msg,strlen(msg),1000);
+			snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"\r\n");
+			HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
 
 			break;
 
@@ -47,30 +47,30 @@ void test_rtc(state etat){
 			sortir_etat=0;
 			while(sortir_etat==0){
 				/***** Enregistrement de Date *****/
-				snprintf(msg,TAILLE_BUF,"\r\nSaisir la date au format xx/xx/xx\r\n");
-				HAL_UART_Transmit(&huart2,msg,strlen(msg),1000);
+				snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"\r\nSaisir la date au format xx/xx/xx\r\n");
+				HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
 				while(ready==0);
 				ready=0;
-				jour_str[0]=rx_buffer[0];
-				jour_str[1]=rx_buffer[1];
+				jour_str[0]=rx_buffer_uart[0];
+				jour_str[1]=rx_buffer_uart[1];
 				sDate.Date=strtol(jour_str, &tail_ptr,10);
-				mois_str[0]=rx_buffer[3];
-				mois_str[1]=rx_buffer[4];
+				mois_str[0]=rx_buffer_uart[3];
+				mois_str[1]=rx_buffer_uart[4];
 				sDate.Month= strtol(mois_str, &tail_ptr,10);
-				annee_str[0]=rx_buffer[6];
-				annee_str[1]=rx_buffer[7];
+				annee_str[0]=rx_buffer_uart[6];
+				annee_str[1]=rx_buffer_uart[7];
 				sDate.Year= strtol(annee_str, &tail_ptr,10);
 				if( 	(sDate.Date<=0)		|| 	(sDate.Date>31)	||
 						(sDate.Month<=0)	||	(sDate.Month>12)||
 						(sDate.Year<0)		||	(sDate.Year>19) ||
 						(HAL_RTC_SetDate(&hrtc, &sDate, RTC_FORMAT_BIN)!=HAL_OK)){
-					snprintf(msg,TAILLE_BUF,"\r\nErreur de saisie\r\n",temp);
-					HAL_UART_Transmit(&huart2,msg,strlen(msg),1000);
+					snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"\r\nErreur de saisie\r\n",temp);
+					HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
 				}
 				else {
 					sortir_etat=1;
-					snprintf(msg,TAILLE_BUF,"\r\nDate enregistrée dans la RTC\r\n",temp);
-					HAL_UART_Transmit(&huart2,msg,strlen(msg),1000);
+					snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"\r\nDate enregistrée dans la RTC\r\n",temp);
+					HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
 					}
 			}
 
@@ -78,30 +78,30 @@ void test_rtc(state etat){
 			sortir_etat=0;
 			while(sortir_etat==0){
 				/***** Enregistrement de l'heure *****/
-				snprintf(msg,TAILLE_BUF,"\r\nSaisir l'heure au format xx:xx:xx\r\n");
-				HAL_UART_Transmit(&huart2,msg,strlen(msg),1000);
+				snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"\r\nSaisir l'heure au format xx:xx:xx\r\n");
+				HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
 				while(ready==0);
 				ready=0;
-				heure_str[0]=rx_buffer[0];
-				heure_str[1]=rx_buffer[1];
+				heure_str[0]=rx_buffer_uart[0];
+				heure_str[1]=rx_buffer_uart[1];
 				sTime.Hours=strtol(heure_str, &tail_ptr,10);
-				minute_str[0]=rx_buffer[3];
-				minute_str[1]=rx_buffer[4];
+				minute_str[0]=rx_buffer_uart[3];
+				minute_str[1]=rx_buffer_uart[4];
 				sTime.Minutes= strtol(minute_str, &tail_ptr,10);
-				seconde_str[0]=rx_buffer[6];
-				seconde_str[1]=rx_buffer[7];
+				seconde_str[0]=rx_buffer_uart[6];
+				seconde_str[1]=rx_buffer_uart[7];
 				sTime.Seconds= strtol(seconde_str, &tail_ptr,10);
 				if( 	(sTime.Hours<0)		|| 	(sTime.Hours>23)	||
 						(sTime.Minutes<0)	||	(sTime.Minutes>59)	||
 						(sTime.Seconds<0)	||	(sTime.Seconds>59) 	||
 						(HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BIN)!=HAL_OK)){
-					snprintf(msg,TAILLE_BUF,"\r\nErreur de saisie\r\n",temp);
-					HAL_UART_Transmit(&huart2,msg,strlen(msg),1000);
+					snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"\r\nErreur de saisie\r\n",temp);
+					HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
 				}
 				else {
 					sortir_etat=1;
-					snprintf(msg,TAILLE_BUF,"\r\nHeure enregistrée dans la RTC\r\n",temp);
-					HAL_UART_Transmit(&huart2,msg,strlen(msg),1000);
+					snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"\r\nHeure enregistrée dans la RTC\r\n",temp);
+					HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
 					}
 			}
 			break;
@@ -114,7 +114,7 @@ void test_rtc(state etat){
 				while(ready!=1);
 				ready=0;
 			}
-			while(rx_buffer[0]!='c');
+			while(rx_buffer_uart[0]!='c');
 			/***** Desactivation des IRQ de la RTC *****/
 			HAL_NVIC_DisableIRQ(RTC_IRQn);
 			__HAL_RTC_ALARM_CLEAR_FLAG(&hrtc,RTC_FLAG_ALRAF);

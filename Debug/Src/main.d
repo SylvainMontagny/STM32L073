@@ -31,6 +31,7 @@ Src/main.o: ../Src/main.c \
  C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_pwr_ex.h \
  C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_rtc.h \
  C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_rtc_ex.h \
+ C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_spi.h \
  C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_tim.h \
  C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_tim_ex.h \
  C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart.h \
@@ -104,6 +105,8 @@ C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Drivers/STM32L0xx_HAL_Dr
 C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_rtc.h:
 
 C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_rtc_ex.h:
+
+C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_spi.h:
 
 C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_tim.h:
 
