@@ -39,6 +39,10 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
+
+/* MACRO */
+#define PRINTF(...)		VirtualCOM_Transmit(__VA_ARGS__)
 
 /* USER CODE END Includes */
 
@@ -71,7 +75,7 @@ typedef enum {	MENU_START_PRINT,
 				TEST_GPIO_IT,
 				MENU_ADC_PRINT,
 				TEST_ADC_TEMPERATURE,
-				TEST_ADC_IN0,
+				TEST_ADC_IN1,
 				TEST_ADC_CALIB,
 				MENU_RTC_PRINT,
 				TEST_RTC_GET,

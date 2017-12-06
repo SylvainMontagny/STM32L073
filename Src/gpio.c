@@ -13,8 +13,7 @@ void test_gpio(state etat){
 
 	switch(etat){
 	case TEST_GPIO_POLLING :
-		snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"Mode Scrutation\r\nLED (LD3) allumée si BP (USER) appuyé\r\n");
-		HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
+		PRINTF("Mode Scrutation\r\nLED (LD3) allumée si BP (USER) appuyé\r\n");
 		/***** Configuration PIN PC13 en Input *****/
 		HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
 		GPIO_InitStruct.Pin = GPIO_PIN_13;
@@ -35,8 +34,7 @@ void test_gpio(state etat){
 		break;
 
 	case TEST_GPIO_IT :
-		snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"Mode Interruption\r\nUn appuis sur le BP (USER) Toggle la LED (LD3) \r\n");
-		HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
+		PRINTF("Mode Interruption\r\nUn appuis sur le BP (USER) Toggle la LED (LD3) \r\n");
 		/***** Configuration PIN PC13 en IT *****/
 		HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
 		GPIO_InitStruct.Pin = GPIO_PIN_13;

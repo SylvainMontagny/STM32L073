@@ -26,8 +26,7 @@ void test_rtc(state etat){
 				HAL_RTC_GetTime(&hrtc,&my_time,RTC_FORMAT_BIN);
 				HAL_RTC_GetDate(&hrtc,&my_date,RTC_FORMAT_BIN);
 				/***** Affichage Time et Date *****/
-				snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"Date : %02u/%02u/%02u \t\t Time : %02u:%02u:%02u                   \r", my_date.Date,my_date.Month,my_date.Year,my_time.Hours,my_time.Minutes,my_time.Seconds);
-				HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
+				PRINTF("Date : %02u/%02u/%02u \t\t Time : %02u:%02u:%02u                   \r", my_date.Date,my_date.Month,my_date.Year,my_time.Hours,my_time.Minutes,my_time.Seconds);
 				HAL_Delay(100);
 				/***** Test Sortie du menu *****/
 				if(ready==1){
@@ -38,17 +37,14 @@ void test_rtc(state etat){
 				}
 			}
 			/***** Sortie du menu *****/
-			snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"\r\n");
-			HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
-
+			PRINTF("\r\n");
 			break;
 
 		case TEST_RTC_SET :
 			sortir_etat=0;
 			while(sortir_etat==0){
 				/***** Enregistrement de Date *****/
-				snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"\r\nSaisir la date au format xx/xx/xx\r\n");
-				HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
+				PRINTF("\r\nSaisir la date au format xx/xx/xx\r\n");
 				while(ready==0);
 				ready=0;
 				jour_str[0]=rx_buffer_uart[0];
@@ -64,22 +60,18 @@ void test_rtc(state etat){
 						(sDate.Month<=0)	||	(sDate.Month>12)||
 						(sDate.Year<0)		||	(sDate.Year>19) ||
 						(HAL_RTC_SetDate(&hrtc, &sDate, RTC_FORMAT_BIN)!=HAL_OK)){
-					snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"\r\nErreur de saisie\r\n",temp);
-					HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
+					PRINTF("\r\nErreur de saisie\r\n",temp);
 				}
 				else {
 					sortir_etat=1;
-					snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"\r\nDate enregistrée dans la RTC\r\n",temp);
-					HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
+					PRINTF("\r\nDate enregistrée dans la RTC\r\n",temp);
 					}
 			}
-
 
 			sortir_etat=0;
 			while(sortir_etat==0){
 				/***** Enregistrement de l'heure *****/
-				snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"\r\nSaisir l'heure au format xx:xx:xx\r\n");
-				HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
+				PRINTF("\r\nSaisir l'heure au format xx:xx:xx\r\n");
 				while(ready==0);
 				ready=0;
 				heure_str[0]=rx_buffer_uart[0];
@@ -95,13 +87,11 @@ void test_rtc(state etat){
 						(sTime.Minutes<0)	||	(sTime.Minutes>59)	||
 						(sTime.Seconds<0)	||	(sTime.Seconds>59) 	||
 						(HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BIN)!=HAL_OK)){
-					snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"\r\nErreur de saisie\r\n",temp);
-					HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
+					PRINTF("\r\nErreur de saisie\r\n",temp);
 				}
 				else {
 					sortir_etat=1;
-					snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"\r\nHeure enregistrée dans la RTC\r\n",temp);
-					HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
+					PRINTF("\r\nHeure enregistrée dans la RTC\r\n",temp);
 					}
 			}
 			break;

@@ -29,7 +29,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 	else if(caractere==13){
 		HAL_UART_Transmit(&huart2,(uint8_t *)"\r\n",2,100);
 		rx_buffer_uart[nbr_caractere]=0;
-		if( !( ( (etat_courant!=TEST_RTC_SET) && (etat_courant!=TEST_ADC_IN0) ) && (nbr_caractere!=1) ) ) {
+		if( !( ( (etat_courant!=TEST_RTC_SET) && (etat_courant!=TEST_ADC_IN1) ) && (nbr_caractere!=1) ) ) {
 			ready=1;
 		}
 		nbr_caractere=0;
@@ -45,8 +45,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 	if (GPIO_Pin==GPIO_PIN_13){
 		HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);
-		snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"IT BP Pin PC13 (Rising Edge) \r\n");
-		HAL_UART_Transmit(&huart2,(uint8_t *)tx_buffer_uart,strlen(tx_buffer_uart),1000);
+		PRINTF("IT BP Pin PC13 (Rising Edge) \r\n");
+
 	}
 }
 
@@ -54,8 +54,7 @@ void HAL_RTC_AlarmAEventCallback(RTC_HandleTypeDef *hrtc){
 	/***** Récupération Time et Date *****/
 	HAL_RTC_GetTime(hrtc,&my_time,RTC_FORMAT_BIN);
 	HAL_RTC_GetDate(hrtc,&my_date,RTC_FORMAT_BIN);					// GetDate doit obligatoirement suivre un GetTime, sinon GetTime reste à la meme valeur
-	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"RTC interrupt \t\t Time : %02u:%02u:%02u                   \r\n",my_time.Hours,my_time.Minutes,my_time.Seconds);
-	HAL_UART_Transmit(&huart2,(uint8_t *)tx_buffer_uart,strlen(tx_buffer_uart),1000);
+	PRINTF("RTC interrupt \t\t Time : %02u:%02u:%02u                   \r\n",my_time.Hours,my_time.Minutes,my_time.Seconds);
 	HAL_RTC_GetTime(hrtc,& my_time,RTC_FORMAT_BIN);			// hrtc et non pas &hrtc (hrtc est ici une variable locale)
 }
 
@@ -65,27 +64,23 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 
 
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim){
-	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"Passage dans IT DMA (Input Capture)\r\n");
-	HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),HAL_MAX_DELAY);
+	PRINTF("Passage dans IT DMA (Input Capture)\r\n");
+	
 	captureDone=1;
 }
 
 
 void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi){
-	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"\r\nPassage dans IT DMA (SPI)\r\n");
-	HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),HAL_MAX_DELAY);
-
+	PRINTF("\r\nPassage dans IT DMA (SPI)\r\n");
 	/***** Buffer RX et TX APRES transmission *****/
-	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"\r\nBuffer RX et TX après transmission :\r\n");
-	HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
-	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"TX : %2u %2u %2u %2u %2u %2u %2u %2u %2u %2u\r\n", tx_buffer_spi[0],tx_buffer_spi[1],tx_buffer_spi[2],tx_buffer_spi[3],tx_buffer_spi[4],tx_buffer_spi[5],tx_buffer_spi[6],tx_buffer_spi[7],tx_buffer_spi[8],tx_buffer_spi[9]);
-	HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),HAL_MAX_DELAY);
-	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"RX : %2u %2u %2u %2u %2u %2u %2u %2u %2u %2u\r\n", rx_buffer_spi[0],rx_buffer_spi[1],rx_buffer_spi[2],rx_buffer_spi[3],rx_buffer_spi[4],rx_buffer_spi[5],rx_buffer_spi[6],rx_buffer_spi[7],rx_buffer_spi[8],rx_buffer_spi[9]);
-	HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),HAL_MAX_DELAY);
+	PRINTF("\r\nBuffer RX et TX après transmission :\r\n");
+	PRINTF("TX : %2u %2u %2u %2u %2u %2u %2u %2u %2u %2u\r\n", tx_buffer_spi[0],tx_buffer_spi[1],tx_buffer_spi[2],tx_buffer_spi[3],tx_buffer_spi[4],tx_buffer_spi[5],tx_buffer_spi[6],tx_buffer_spi[7],tx_buffer_spi[8],tx_buffer_spi[9]);
+	PRINTF("RX : %2u %2u %2u %2u %2u %2u %2u %2u %2u %2u\r\n", rx_buffer_spi[0],rx_buffer_spi[1],rx_buffer_spi[2],rx_buffer_spi[3],rx_buffer_spi[4],rx_buffer_spi[5],rx_buffer_spi[6],rx_buffer_spi[7],rx_buffer_spi[8],rx_buffer_spi[9]);
+	
 }
 
 /*void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi){
-	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"Passage dans IT DMA (SPI)\r\n");
-	HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),HAL_MAX_DELAY);
+	PRINTF("Passage dans IT DMA (SPI)\r\n");
+	
 	transmit_SPI_Done=1;
 }*/

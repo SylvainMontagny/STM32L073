@@ -150,6 +150,7 @@ int main(void)
   HAL_NVIC_DisableIRQ(EXTI4_15_IRQn);
   HAL_NVIC_DisableIRQ(RTC_IRQn);
 
+
   while (1)
   {
 
@@ -163,7 +164,7 @@ int main(void)
 	  case TEST_GPIO_POLLING		: test_gpio(TEST_GPIO_POLLING);		etat_courant=MENU_GPIO_PRINT;	break;
 	  case TEST_GPIO_IT				: test_gpio(TEST_GPIO_IT);			etat_courant=MENU_GPIO_PRINT;	break;
 	  case MENU_ADC_PRINT			: print_menu_adc();													break;
-	  case TEST_ADC_IN0				: test_adc(TEST_ADC_IN0);			etat_courant=MENU_ADC_PRINT;	break;
+	  case TEST_ADC_IN1				: test_adc(TEST_ADC_IN1);			etat_courant=MENU_ADC_PRINT;	break;
 	  case TEST_ADC_TEMPERATURE 	: test_adc(TEST_ADC_TEMPERATURE); 	etat_courant=MENU_ADC_PRINT; 	break;
 	  case TEST_ADC_CALIB			: test_adc(TEST_ADC_CALIB);			etat_courant=MENU_ADC_PRINT; 	break;
 	  case MENU_RTC_PRINT			: print_menu_rtc();													break;
@@ -272,7 +273,7 @@ static void MX_ADC_Init(void)
 
     /**Configure for the selected ADC regular channel to be converted. 
     */
-  sConfig.Channel = ADC_CHANNEL_0;
+  sConfig.Channel = ADC_CHANNEL_1;
   sConfig.Rank = ADC_RANK_CHANNEL_NUMBER;
   if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK)
   {

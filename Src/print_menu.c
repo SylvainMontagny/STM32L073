@@ -8,20 +8,13 @@
 #include "print_menu.h"
 
 void print_menu(void){
-	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"\r\n\r\n***** Programme TEST des périphériques *****\r\n ");
-	HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
-	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"\t(g) GPIO\r\n");
-	HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
-	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"\t(a) ADC\r\n");
-	HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
-	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"\t(r) RTC\r\n");
-	HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
-	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"\t(b) Basic Timer TIM6\r\n");
-	HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
-	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"\t(i) Input Capture TIM3\r\n");
-	HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
-	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"\t(s) SPI\r\n");
-	HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
+	PRINTF("\r\n\r\n***** Programme TEST des périphériques *****\r\n ");
+	PRINTF("\t(g) GPIO\r\n");
+	PRINTF("\t(a) ADC\r\n");
+	PRINTF("\t(r) RTC\r\n");
+	PRINTF("\t(b) Basic Timer TIM6\r\n");
+	PRINTF("\t(i) Input Capture TIM3\r\n");
+	PRINTF("\t(s) SPI\r\n");
 
 	/***** Activation IT UART2 RX *****/
 	HAL_UART_Receive_IT(&huart2,&caractere,1);
@@ -46,14 +39,11 @@ void print_menu(void){
 }
 
 
-
 void print_menu_gpio(){
-	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"\r\n***** Test des GPIO ***** Touche 'c' pour sortir\r\n");
-	HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
-	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"(P) Mode Polling (scrutation)\r\n");
-	HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
-	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"(I) Mode IT (Interruption)\r\n");
-	HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
+	PRINTF("\r\n***** Test des GPIO ***** Touche 'c' pour sortir\r\n");
+	PRINTF("(P) Mode Polling (scrutation)\r\n");
+	PRINTF("(I) Mode IT (Interruption)\r\n");
+
 	/***** Test sortie du menu *****/
 	do{
 		while(ready!=1);
@@ -71,14 +61,11 @@ void print_menu_gpio(){
 
 
 void print_menu_rtc(){
-	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"\r\n***** Test de la RTC ***** Touche 'c' pour sortir\r\n");
-	HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
-	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"(G) Get Date-Heure\r\n");
-	HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
-	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"(S) Set Date-Heure\r\n");
-	HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
-	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"(A) Alarme (IT) toutes les secondes\r\n");
-	HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
+	PRINTF("\r\n***** Test de la RTC ***** Touche 'c' pour sortir\r\n");
+	PRINTF("(G) Get Date-Heure\r\n");
+	PRINTF("(S) Set Date-Heure\r\n");
+	PRINTF("(A) Alarme (IT) toutes les secondes\r\n");
+
 	/***** Test sortie du menu *****/
 	do{
 		while(ready!=1);
@@ -96,14 +83,11 @@ void print_menu_rtc(){
 }
 
 void print_menu_adc(void){
-	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"\r\n***** Test de l'ADC ***** Touche 'c' pour sortir\r\n");
-	HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
-	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"(I) IN0 Channel : PA0 (A0 Nucléo)\r\n");
-	HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
-	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"(T) Temperature Internal\r\n");
-	HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
-	snprintf(tx_buffer_uart,TAILLE_BUF_UART_TX,"(C) Calibration ADC\r\n");
-	HAL_UART_Transmit(&huart2,tx_buffer_uart,strlen(tx_buffer_uart),1000);
+	PRINTF("\r\n***** Test de l'ADC ***** Touche 'c' pour sortir\r\n");
+	PRINTF("(I) IN1 Channel : PA0 (A0 Nucléo)\r\n");
+	PRINTF("(T) Temperature Internal\r\n");
+	PRINTF("(C) Calibration ADC\r\n");
+
 	/***** Test sortie du menu *****/
 	do{
 			while(ready!=1);
@@ -112,10 +96,21 @@ void print_menu_adc(void){
 		while(rx_buffer_uart[0]!='I' && rx_buffer_uart[0]!='T' && rx_buffer_uart[0]!='C' && rx_buffer_uart[0]!='c');
 
 		switch(rx_buffer_uart[0]){
-			case 'I' :etat_courant=TEST_ADC_IN0;			break;
+			case 'I' :etat_courant=TEST_ADC_IN1;			break;
 			case 'T' :etat_courant=TEST_ADC_TEMPERATURE;	break;
 			case 'C' :etat_courant=TEST_ADC_CALIB;			break;
 			case 'c' :etat_courant=MENU_START_PRINT; 		break;
 		}
+}
+
+
+void VirtualCOM_Transmit( char *format, ... ){
+	char buffer[128];
+	va_list args;
+	va_start(args, format);
+
+	vsprintf(buffer,format,args);
+	HAL_UART_Transmit(&huart2,buffer,strlen(buffer),1000);
+  	va_end(args);
 }
 
