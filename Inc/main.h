@@ -64,9 +64,11 @@
 /* USER CODE BEGIN Private defines */
 
 /***** Taille du buffer d'émmission pour USART2 TX *****/
-#define TAILLE_BUF_UART_RX	 100
-#define TAILLE_BUF_UART_TX	 100
-#define TAILLE_BUF_SPI		 10
+#define TAILLE_BUF_UART_RX	 	100
+#define TAILLE_BUF_UART_TX	 	100
+#define TAILLE_BUF_LPUART_RX	10
+#define TAILLE_BUF_LPUART_TX	10
+#define TAILLE_BUF_SPI		 	10
 
 /***** Machine d'état du projet *****/
 typedef enum {	MENU_START_PRINT,
@@ -81,10 +83,14 @@ typedef enum {	MENU_START_PRINT,
 				TEST_RTC_GET,
 				TEST_RTC_SET,
 				TEST_RTC_ALARM,
+				MENU_TIMER_PRINT,
 				TEST_BASIC_TIM6,
 				TEST_INPUT_CAPTURE_TIM3,
-				TEST_SPI
-
+				TEST_SPI,
+				MENU_UART_PRINT,
+				TEST_UART_POLLING,
+				TEST_UART_IT,
+				TEST_UART_DMA
 }state;
 
 /* USER CODE END Private defines */

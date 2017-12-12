@@ -15,6 +15,8 @@ void print_menu(void);
 void print_menu_gpio(void);
 void print_menu_rtc(void);
 void print_menu_adc(void);
+void print_menu_uart(void);
+void print_menu_timer(void);
 
 /***** Variables externes *****/
 extern uint8_t ready;

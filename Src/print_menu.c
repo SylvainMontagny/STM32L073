@@ -12,9 +12,9 @@ void print_menu(void){
 	PRINTF("\t(g) GPIO\r\n");
 	PRINTF("\t(a) ADC\r\n");
 	PRINTF("\t(r) RTC\r\n");
-	PRINTF("\t(b) Basic Timer TIM6\r\n");
-	PRINTF("\t(i) Input Capture TIM3\r\n");
+	PRINTF("\t(t) TIMER\r\n");
 	PRINTF("\t(s) SPI\r\n");
+	PRINTF("\t(u) UART\r\n");
 
 	/***** Activation IT UART2 RX *****/
 	HAL_UART_Receive_IT(&huart2,&caractere,1);
@@ -24,16 +24,16 @@ void print_menu(void){
 		ready=0;
 	}
 	while(	rx_buffer_uart[0]!='g' && rx_buffer_uart[0]!='a' &&
-			rx_buffer_uart[0]!='r' && rx_buffer_uart[0]!='b' &&
-			rx_buffer_uart[0]!='i' && rx_buffer_uart[0]!='s');
+			rx_buffer_uart[0]!='r' && rx_buffer_uart[0]!='t' &&
+			rx_buffer_uart[0]!='s' && rx_buffer_uart[0]!='u');
 
 	switch(rx_buffer_uart[0]){
 		case 'g' :etat_courant=MENU_GPIO_PRINT;			break;
 		case 'a' :etat_courant=MENU_ADC_PRINT;			break;
 		case 'r' :etat_courant=MENU_RTC_PRINT;			break;
-		case 'b' :etat_courant=TEST_BASIC_TIM6;			break;
-		case 'i' :etat_courant=TEST_INPUT_CAPTURE_TIM3;	break;
+		case 't' :etat_courant=MENU_TIMER_PRINT;		break;
 		case 's' :etat_courant=TEST_SPI;				break;
+		case 'u' :etat_courant=MENU_UART_PRINT;			break;
 	}
 
 }
@@ -101,6 +101,50 @@ void print_menu_adc(void){
 			case 'C' :etat_courant=TEST_ADC_CALIB;			break;
 			case 'c' :etat_courant=MENU_START_PRINT; 		break;
 		}
+}
+
+
+void print_menu_uart(){
+	PRINTF("\r\n***** Test des TIMER ***** Touche 'c' pour sortir\r\n");
+	PRINTF("(P) Mode Polling (scrutation)\r\n");
+	PRINTF("(I) Mode IT (Interruption)\r\n");
+	PRINTF("(D) Mode DMA\r\n");
+
+	/***** Test sortie du menu *****/
+	do{
+		while(ready!=1);
+		ready=0;
+	}
+	while(rx_buffer_uart[0]!='P' && rx_buffer_uart[0]!='I' && rx_buffer_uart[0]!='D' && rx_buffer_uart[0]!='c');
+
+	switch(rx_buffer_uart[0]){
+		case 'P' :etat_courant=TEST_UART_POLLING;	break;
+		case 'I' :etat_courant=TEST_UART_IT;		break;
+		case 'D' :etat_courant=TEST_UART_DMA; 		break;
+		case 'c' :etat_courant=MENU_START_PRINT; 	break;
+	}
+
+}
+
+
+void print_menu_timer(){
+	PRINTF("\r\n***** Test de l'UART 2 ***** Touche 'c' pour sortir\r\n");
+	PRINTF("\t(B) Basic Timer TIM6\r\n");
+	PRINTF("\t(I) Input Capture TIM3\r\n");
+
+	/***** Test sortie du menu *****/
+	do{
+		while(ready!=1);
+		ready=0;
+	}
+	while(rx_buffer_uart[0]!='I' && rx_buffer_uart[0]!='B' && rx_buffer_uart[0]!='c');
+
+	switch(rx_buffer_uart[0]){
+		case 'B' :etat_courant=TEST_BASIC_TIM6;				break;
+		case 'I' :etat_courant=TEST_INPUT_CAPTURE_TIM3; 	break;
+		case 'c' :etat_courant=MENU_START_PRINT; 			break;
+	}
+
 }
 
 

@@ -11,6 +11,8 @@
 
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
+
+if(huart==&huart2){
 	/***** Toggle LED et affichage caractere saisi *****/
 	HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);
 	HAL_UART_Transmit(&huart2,&caractere,1,100);
@@ -39,7 +41,14 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 		nbr_caractere++;
 	}
 	/***** Relance d'interruption prochain caractère *****/
-	HAL_UART_Receive_IT(&huart2,&caractere,1);
+	if(HAL_UART_Receive_IT(&huart2,&caractere,1) != HAL_OK) PRINTF("\n HAL_UART_IT NOK\n");
+}
+
+else if(huart==&hlpuart1){
+	PRINTF("\r\nLP_UART Receive (INTERRUPT) :\t%s\r\n",rx_buffer_lpuart);
+	lpuart_IT_Received=1;
+}
+
 }
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){

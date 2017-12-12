@@ -31,4 +31,5 @@ Projet réalisé sous System Workbench (SW4STM32)
     (a) ADC  
     (r) RTC  
     (b) Basic Timer TIM6  
-    (i) Input Capture TIM3  
+    (i) Input Capture TIM3
+    (s) SPI   

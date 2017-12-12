@@ -235,6 +235,113 @@ void HAL_I2C_MspDeInit(I2C_HandleTypeDef* hi2c)
 
 }
 
+void HAL_UART_MspInit(UART_HandleTypeDef* huart)
+{
+
+  GPIO_InitTypeDef GPIO_InitStruct;
+  if(huart->Instance==LPUART1)
+  {
+  /* USER CODE BEGIN LPUART1_MspInit 0 */
+
+  /* USER CODE END LPUART1_MspInit 0 */
+    /* Peripheral clock enable */
+    __HAL_RCC_LPUART1_CLK_ENABLE();
+  
+    /**LPUART1 GPIO Configuration    
+    PC0     ------> LPUART1_RX
+    PC1     ------> LPUART1_TX 
+    */
+    GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStruct.Alternate = GPIO_AF6_LPUART1;
+    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+    /* Peripheral interrupt init */
+    HAL_NVIC_SetPriority(AES_RNG_LPUART1_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(AES_RNG_LPUART1_IRQn);
+  /* USER CODE BEGIN LPUART1_MspInit 1 */
+
+  /* USER CODE END LPUART1_MspInit 1 */
+  }
+  else if(huart->Instance==USART2)
+  {
+  /* USER CODE BEGIN USART2_MspInit 0 */
+
+  /* USER CODE END USART2_MspInit 0 */
+    /* Peripheral clock enable */
+    __HAL_RCC_USART2_CLK_ENABLE();
+  
+    /**USART2 GPIO Configuration    
+    PA2     ------> USART2_TX
+    PA3     ------> USART2_RX 
+    */
+    GPIO_InitStruct.Pin = USART_TX_Pin|USART_RX_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStruct.Alternate = GPIO_AF4_USART2;
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+    /* Peripheral interrupt init */
+    HAL_NVIC_SetPriority(USART2_IRQn, 1, 0);
+    HAL_NVIC_EnableIRQ(USART2_IRQn);
+  /* USER CODE BEGIN USART2_MspInit 1 */
+
+  /* USER CODE END USART2_MspInit 1 */
+  }
+
+}
+
+void HAL_UART_MspDeInit(UART_HandleTypeDef* huart)
+{
+
+  if(huart->Instance==LPUART1)
+  {
+  /* USER CODE BEGIN LPUART1_MspDeInit 0 */
+
+  /* USER CODE END LPUART1_MspDeInit 0 */
+    /* Peripheral clock disable */
+    __HAL_RCC_LPUART1_CLK_DISABLE();
+  
+    /**LPUART1 GPIO Configuration    
+    PC0     ------> LPUART1_RX
+    PC1     ------> LPUART1_TX 
+    */
+    HAL_GPIO_DeInit(GPIOC, GPIO_PIN_0|GPIO_PIN_1);
+
+    /* Peripheral interrupt DeInit*/
+    HAL_NVIC_DisableIRQ(AES_RNG_LPUART1_IRQn);
+
+  /* USER CODE BEGIN LPUART1_MspDeInit 1 */
+
+  /* USER CODE END LPUART1_MspDeInit 1 */
+  }
+  else if(huart->Instance==USART2)
+  {
+  /* USER CODE BEGIN USART2_MspDeInit 0 */
+
+  /* USER CODE END USART2_MspDeInit 0 */
+    /* Peripheral clock disable */
+    __HAL_RCC_USART2_CLK_DISABLE();
+  
+    /**USART2 GPIO Configuration    
+    PA2     ------> USART2_TX
+    PA3     ------> USART2_RX 
+    */
+    HAL_GPIO_DeInit(GPIOA, USART_TX_Pin|USART_RX_Pin);
+
+    /* Peripheral interrupt DeInit*/
+    HAL_NVIC_DisableIRQ(USART2_IRQn);
+
+  /* USER CODE BEGIN USART2_MspDeInit 1 */
+
+  /* USER CODE END USART2_MspDeInit 1 */
+  }
+
+}
+
 void HAL_RTC_MspInit(RTC_HandleTypeDef* hrtc)
 {
 
@@ -489,66 +596,6 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
 
   /* USER CODE END TIM6_MspDeInit 1 */
   }
-
-}
-
-void HAL_UART_MspInit(UART_HandleTypeDef* huart)
-{
-
-  GPIO_InitTypeDef GPIO_InitStruct;
-  if(huart->Instance==USART2)
-  {
-  /* USER CODE BEGIN USART2_MspInit 0 */
-
-  /* USER CODE END USART2_MspInit 0 */
-    /* Peripheral clock enable */
-    __HAL_RCC_USART2_CLK_ENABLE();
-  
-    /**USART2 GPIO Configuration    
-    PA2     ------> USART2_TX
-    PA3     ------> USART2_RX 
-    */
-    GPIO_InitStruct.Pin = USART_TX_Pin|USART_RX_Pin;
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_PULLUP;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    GPIO_InitStruct.Alternate = GPIO_AF4_USART2;
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-    /* Peripheral interrupt init */
-    HAL_NVIC_SetPriority(USART2_IRQn, 1, 0);
-    HAL_NVIC_EnableIRQ(USART2_IRQn);
-  /* USER CODE BEGIN USART2_MspInit 1 */
-
-  /* USER CODE END USART2_MspInit 1 */
-  }
-
-}
-
-void HAL_UART_MspDeInit(UART_HandleTypeDef* huart)
-{
-
-  if(huart->Instance==USART2)
-  {
-  /* USER CODE BEGIN USART2_MspDeInit 0 */
-
-  /* USER CODE END USART2_MspDeInit 0 */
-    /* Peripheral clock disable */
-    __HAL_RCC_USART2_CLK_DISABLE();
-  
-    /**USART2 GPIO Configuration    
-    PA2     ------> USART2_TX
-    PA3     ------> USART2_RX 
-    */
-    HAL_GPIO_DeInit(GPIOA, USART_TX_Pin|USART_RX_Pin);
-
-    /* Peripheral interrupt DeInit*/
-    HAL_NVIC_DisableIRQ(USART2_IRQn);
-
-  }
-  /* USER CODE BEGIN USART2_MspDeInit 1 */
-
-  /* USER CODE END USART2_MspDeInit 1 */
 
 }
 

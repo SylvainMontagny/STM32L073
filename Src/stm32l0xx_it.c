@@ -41,13 +41,14 @@
 
 /* External variables --------------------------------------------------------*/
 extern DAC_HandleTypeDef hdac;
+extern UART_HandleTypeDef hlpuart1;
+extern UART_HandleTypeDef huart2;
 extern RTC_HandleTypeDef hrtc;
 extern DMA_HandleTypeDef hdma_spi2_rx;
 extern DMA_HandleTypeDef hdma_spi2_tx;
 extern DMA_HandleTypeDef hdma_tim3_ch1;
 extern TIM_HandleTypeDef htim3;
 extern TIM_HandleTypeDef htim6;
-extern UART_HandleTypeDef huart2;
 
 /******************************************************************************/
 /*            Cortex-M0+ Processor Interruption and Exception Handlers         */ 
@@ -186,6 +187,20 @@ void USART2_IRQHandler(void)
   /* USER CODE BEGIN USART2_IRQn 1 */
 
   /* USER CODE END USART2_IRQn 1 */
+}
+
+/**
+* @brief This function handles AES, RNG and LPUART1 interrupts / LPUART1 wake-up interrupt through EXTI line 28.
+*/
+void AES_RNG_LPUART1_IRQHandler(void)
+{
+  /* USER CODE BEGIN AES_RNG_LPUART1_IRQn 0 */
+
+  /* USER CODE END AES_RNG_LPUART1_IRQn 0 */
+  HAL_UART_IRQHandler(&hlpuart1);
+  /* USER CODE BEGIN AES_RNG_LPUART1_IRQn 1 */
+
+  /* USER CODE END AES_RNG_LPUART1_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */

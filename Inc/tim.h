@@ -11,8 +11,7 @@
 #include "main.h"
 #include "stm32l0xx_hal.h"
 
-void test_basic_tim6(void);
-void test_input_capture_tim3(void);
+void test_timer(state etat);
 
 /***** Variables externes *****/
 extern uint8_t ready;

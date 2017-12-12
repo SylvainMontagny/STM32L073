@@ -54,6 +54,7 @@ void DMA1_Channel4_5_6_7_IRQHandler(void);
 void TIM3_IRQHandler(void);
 void TIM6_DAC_IRQHandler(void);
 void USART2_IRQHandler(void);
+void AES_RNG_LPUART1_IRQHandler(void);
 
 #ifdef __cplusplus
 }

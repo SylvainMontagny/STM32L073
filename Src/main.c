@@ -51,6 +51,9 @@ DAC_HandleTypeDef hdac;
 
 I2C_HandleTypeDef hi2c2;
 
+UART_HandleTypeDef hlpuart1;
+UART_HandleTypeDef huart2;
+
 RTC_HandleTypeDef hrtc;
 
 SPI_HandleTypeDef hspi2;
@@ -61,23 +64,26 @@ TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim6;
 DMA_HandleTypeDef hdma_tim3_ch1;
 
-UART_HandleTypeDef huart2;
-
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
 
 state etat_courant=MENU_START_PRINT;
 uint8_t rx_buffer_uart[TAILLE_BUF_UART_RX]={0};
 uint8_t tx_buffer_uart[TAILLE_BUF_UART_TX]={0};
+uint8_t rx_buffer_lpuart[TAILLE_BUF_LPUART_RX]={0};
+uint8_t tx_buffer_lpuart[TAILLE_BUF_LPUART_TX]={ 'A' , 'B' , 'C' , 'D' , '\0' };
 uint8_t rx_buffer_spi[TAILLE_BUF_SPI]={0};
 uint8_t tx_buffer_spi[TAILLE_BUF_SPI]={0,11,22,33,44,55,66,77,88,99};
 uint8_t caractere;
 uint8_t ready=0;
 uint8_t captureDone=0;
+uint8_t lpuart_IT_Received=0;
+
 
 uint16_t captures[2];
 
 uint32_t nbr_caractere=0;
+
 
 RTC_DateTypeDef my_date;
 RTC_TimeTypeDef my_time;
@@ -98,6 +104,7 @@ static void MX_TIM6_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_SPI2_Init(void);
 static void MX_I2C2_Init(void);
+static void MX_LPUART1_UART_Init(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
@@ -135,6 +142,7 @@ int main(void)
   MX_TIM3_Init();
   MX_SPI2_Init();
   MX_I2C2_Init();
+  MX_LPUART1_UART_Init();
 
   /* USER CODE BEGIN 2 */
   HAL_DAC_Start(&hdac,DAC_CHANNEL_1);
@@ -151,6 +159,10 @@ int main(void)
   HAL_NVIC_DisableIRQ(RTC_IRQn);
 
 
+  /***** Desactivation du LP_UART1 *****/
+  HAL_UART_DeInit(&hlpuart1);
+
+
   while (1)
   {
 
@@ -159,21 +171,27 @@ int main(void)
 
   /* USER CODE BEGIN 3 */
 	  switch(etat_courant){
-	  case MENU_START_PRINT 		: print_menu();														break;
-	  case MENU_GPIO_PRINT			: print_menu_gpio();												break;
-	  case TEST_GPIO_POLLING		: test_gpio(TEST_GPIO_POLLING);		etat_courant=MENU_GPIO_PRINT;	break;
-	  case TEST_GPIO_IT				: test_gpio(TEST_GPIO_IT);			etat_courant=MENU_GPIO_PRINT;	break;
-	  case MENU_ADC_PRINT			: print_menu_adc();													break;
-	  case TEST_ADC_IN1				: test_adc(TEST_ADC_IN1);			etat_courant=MENU_ADC_PRINT;	break;
-	  case TEST_ADC_TEMPERATURE 	: test_adc(TEST_ADC_TEMPERATURE); 	etat_courant=MENU_ADC_PRINT; 	break;
-	  case TEST_ADC_CALIB			: test_adc(TEST_ADC_CALIB);			etat_courant=MENU_ADC_PRINT; 	break;
-	  case MENU_RTC_PRINT			: print_menu_rtc();													break;
-	  case TEST_RTC_GET				: test_rtc(TEST_RTC_GET);			etat_courant=MENU_RTC_PRINT;	break;
-	  case TEST_RTC_SET				: test_rtc(TEST_RTC_SET);			etat_courant=MENU_RTC_PRINT;	break;
-	  case TEST_RTC_ALARM			: test_rtc(TEST_RTC_ALARM);			etat_courant=MENU_RTC_PRINT;	break;
-	  case TEST_BASIC_TIM6			: test_basic_tim6();				etat_courant=MENU_START_PRINT;	break;
-	  case TEST_INPUT_CAPTURE_TIM3	: test_input_capture_tim3();		etat_courant=MENU_START_PRINT;	break;
-	  case TEST_SPI					: test_spi();						etat_courant=MENU_START_PRINT;	break;
+	  case MENU_START_PRINT 		: print_menu();															break;
+	  case MENU_GPIO_PRINT			: print_menu_gpio();													break;
+	  case TEST_GPIO_POLLING		: test_gpio(TEST_GPIO_POLLING);			etat_courant=MENU_GPIO_PRINT;	break;
+	  case TEST_GPIO_IT				: test_gpio(TEST_GPIO_IT);				etat_courant=MENU_GPIO_PRINT;	break;
+	  case MENU_ADC_PRINT			: print_menu_adc();														break;
+	  case TEST_ADC_IN1				: test_adc(TEST_ADC_IN1);				etat_courant=MENU_ADC_PRINT;	break;
+	  case TEST_ADC_TEMPERATURE 	: test_adc(TEST_ADC_TEMPERATURE); 		etat_courant=MENU_ADC_PRINT; 	break;
+	  case TEST_ADC_CALIB			: test_adc(TEST_ADC_CALIB);				etat_courant=MENU_ADC_PRINT; 	break;
+	  case MENU_RTC_PRINT			: print_menu_rtc();														break;
+	  case TEST_RTC_GET				: test_rtc(TEST_RTC_GET);				etat_courant=MENU_RTC_PRINT;	break;
+	  case TEST_RTC_SET				: test_rtc(TEST_RTC_SET);				etat_courant=MENU_RTC_PRINT;	break;
+	  case TEST_RTC_ALARM			: test_rtc(TEST_RTC_ALARM);				etat_courant=MENU_RTC_PRINT;	break;
+	  case MENU_TIMER_PRINT			: print_menu_timer();													break;
+	  case TEST_BASIC_TIM6			: test_timer(TEST_BASIC_TIM6);			etat_courant=MENU_START_PRINT;	break;
+	  case TEST_INPUT_CAPTURE_TIM3	: test_timer(TEST_INPUT_CAPTURE_TIM3);	etat_courant=MENU_START_PRINT;	break;
+	  case TEST_SPI					: test_spi();							etat_courant=MENU_START_PRINT;	break;
+	  case MENU_UART_PRINT			: print_menu_uart();													break;
+	  case TEST_UART_POLLING		: test_uart(TEST_UART_POLLING);			etat_courant=MENU_UART_PRINT;	break;
+	  case TEST_UART_IT				: test_uart(TEST_UART_IT);				etat_courant=MENU_UART_PRINT;	break;
+	  case TEST_UART_DMA			: test_uart(TEST_UART_DMA);				etat_courant=MENU_UART_PRINT;	break;
+
 	  }
   }
   /* USER CODE END 3 */
@@ -220,9 +238,10 @@ void SystemClock_Config(void)
     Error_Handler();
   }
 
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART2|RCC_PERIPHCLK_RTC
-                              |RCC_PERIPHCLK_USB;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART2|RCC_PERIPHCLK_LPUART1
+                              |RCC_PERIPHCLK_RTC|RCC_PERIPHCLK_USB;
   PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
+  PeriphClkInit.Lpuart1ClockSelection = RCC_LPUART1CLKSOURCE_PCLK1;
   PeriphClkInit.RTCClockSelection = RCC_RTCCLKSOURCE_LSI;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
@@ -343,6 +362,49 @@ static void MX_I2C2_Init(void)
     /**Configure Digital filter 
     */
   if (HAL_I2CEx_ConfigDigitalFilter(&hi2c2, 0) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+}
+
+/* LPUART1 init function */
+static void MX_LPUART1_UART_Init(void)
+{
+
+  hlpuart1.Instance = LPUART1;
+  hlpuart1.Init.BaudRate = 9600;
+  hlpuart1.Init.WordLength = UART_WORDLENGTH_8B;
+  hlpuart1.Init.StopBits = UART_STOPBITS_1;
+  hlpuart1.Init.Parity = UART_PARITY_NONE;
+  hlpuart1.Init.Mode = UART_MODE_TX_RX;
+  hlpuart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  hlpuart1.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+  hlpuart1.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_RXOVERRUNDISABLE_INIT;
+  hlpuart1.AdvancedInit.OverrunDisable = UART_ADVFEATURE_OVERRUN_DISABLE;
+  if (HAL_UART_Init(&hlpuart1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+}
+
+/* USART2 init function */
+static void MX_USART2_UART_Init(void)
+{
+
+  huart2.Instance = USART2;
+  huart2.Init.BaudRate = 115200;
+  huart2.Init.WordLength = UART_WORDLENGTH_8B;
+  huart2.Init.StopBits = UART_STOPBITS_1;
+  huart2.Init.Parity = UART_PARITY_NONE;
+  huart2.Init.Mode = UART_MODE_TX_RX;
+  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+  huart2.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+  huart2.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_RXOVERRUNDISABLE_INIT;
+  huart2.AdvancedInit.OverrunDisable = UART_ADVFEATURE_OVERRUN_DISABLE;
+  if (HAL_UART_Init(&huart2) != HAL_OK)
   {
     Error_Handler();
   }
@@ -510,28 +572,6 @@ static void MX_TIM6_Init(void)
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
   if (HAL_TIMEx_MasterConfigSynchronization(&htim6, &sMasterConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-}
-
-/* USART2 init function */
-static void MX_USART2_UART_Init(void)
-{
-
-  huart2.Instance = USART2;
-  huart2.Init.BaudRate = 115200;
-  huart2.Init.WordLength = UART_WORDLENGTH_8B;
-  huart2.Init.StopBits = UART_STOPBITS_1;
-  huart2.Init.Parity = UART_PARITY_NONE;
-  huart2.Init.Mode = UART_MODE_TX_RX;
-  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
-  huart2.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
-  huart2.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_RXOVERRUNDISABLE_INIT;
-  huart2.AdvancedInit.OverrunDisable = UART_ADVFEATURE_OVERRUN_DISABLE;
-  if (HAL_UART_Init(&huart2) != HAL_OK)
   {
     Error_Handler();
   }
