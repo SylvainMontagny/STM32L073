@@ -27,6 +27,7 @@ extern uint8_t rx_buffer_uart[TAILLE_BUF_UART_RX];
 extern uint8_t captureDone;
 extern uint8_t ready;
 extern uint8_t lpuart_IT_Received;
+extern uint8_t lpuart_DMA_Received;
 
 extern uint32_t nbr_caractere;
 

@@ -45,8 +45,17 @@ if(huart==&huart2){
 }
 
 else if(huart==&hlpuart1){
-	PRINTF("\r\nLP_UART Receive (INTERRUPT) :\t%s\r\n",rx_buffer_lpuart);
-	lpuart_IT_Received=1;
+	switch(etat_courant){
+		case	TEST_UART_IT :
+			PRINTF("\r\nLP_UART Receive (INTERRUPT) :\t%s\r\n",rx_buffer_lpuart);
+			lpuart_IT_Received=1;
+		break;
+
+		case 	TEST_UART_DMA :
+			PRINTF("\r\nLP_UART Receive  (DMA) :\t\t%s\r\n",rx_buffer_lpuart);
+			lpuart_DMA_Received=1;
+		break;
+	}
 }
 
 }

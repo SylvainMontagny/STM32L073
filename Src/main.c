@@ -53,6 +53,7 @@ I2C_HandleTypeDef hi2c2;
 
 UART_HandleTypeDef hlpuart1;
 UART_HandleTypeDef huart2;
+DMA_HandleTypeDef hdma_lpuart1_rx;
 
 RTC_HandleTypeDef hrtc;
 
@@ -78,6 +79,7 @@ uint8_t caractere;
 uint8_t ready=0;
 uint8_t captureDone=0;
 uint8_t lpuart_IT_Received=0;
+uint8_t lpuart_DMA_Received=0;
 
 
 uint16_t captures[2];
@@ -587,6 +589,9 @@ static void MX_DMA_Init(void)
   __HAL_RCC_DMA1_CLK_ENABLE();
 
   /* DMA interrupt init */
+  /* DMA1_Channel2_3_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Channel2_3_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Channel2_3_IRQn);
   /* DMA1_Channel4_5_6_7_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA1_Channel4_5_6_7_IRQn, 2, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel4_5_6_7_IRQn);

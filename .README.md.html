@@ -666,12 +666,26 @@ function setDocumentScrollTop(ypos)
  <li>Reseter la carte, le menu suivant doit apparaitre dans votre terminal :</li> 
 </ol> 
 <p><strong>Programme TEST des p&eacute;riph&eacute;riques</strong></p> 
-<pre><code>(g) GPIO  
+<pre><code>(g) GPIO 
+		(P) Mode Polling
+		(I) Mode Iterrupt 
 (a) ADC  
-(r) RTC  
+		(I) IN1 Channel : PA0 (A0 Nucl�o)
+		(T) Temperature Internal
+		(C) Calibration ADC
+(r) RTC 
+ 		(G) Get Date-Heure
+ 		(S) Set Date-Heure
+ 		(A) Alarme (IT) toutes les secondes
 (t) TIMER
+		(B) Basic Timer TIM6
+		(I) Input Capture TIM3
 (s) SPI  
+		
 (u) UART 
+		(P) Mode Polling (scrutation)
+		(I) Mode Iterrupt (Interruption)
+		(D) Mode DMA
 </code></pre>
 </body>
 </html>

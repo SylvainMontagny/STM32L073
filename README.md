@@ -27,9 +27,23 @@ Projet réalisé sous System Workbench (SW4STM32)
  
 **Programme TEST des périphériques**
 
-    (g) GPIO  
+    (g) GPIO 
+    		(P) Mode Polling
+    		(I) Mode Iterrupt 
     (a) ADC  
-    (r) RTC  
+    		(I) IN1 Channel : PA0 (A0 Nucl�o)
+    		(T) Temperature Internal
+    		(C) Calibration ADC
+    (r) RTC 
+     		(G) Get Date-Heure
+     		(S) Set Date-Heure
+     		(A) Alarme (IT) toutes les secondes
     (t) TIMER
+    		(B) Basic Timer TIM6
+    		(I) Input Capture TIM3
     (s) SPI  
+    		
     (u) UART 
+    		(P) Mode Polling (scrutation)
+    		(I) Mode Iterrupt (Interruption)
+    		(D) Mode DMA

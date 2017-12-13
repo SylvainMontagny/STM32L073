@@ -18,6 +18,7 @@ void test_uart(state etat);
 /***** Variables externes *****/
 extern uint8_t ready;
 extern uint8_t lpuart_IT_Received;
+extern uint8_t lpuart_DMA_Received;
 
 extern uint8_t tx_buffer_uart[TAILLE_BUF_UART_TX];
 extern uint8_t rx_buffer_uart[TAILLE_BUF_UART_RX];

@@ -42,7 +42,7 @@ void print_menu(void){
 void print_menu_gpio(){
 	PRINTF("\r\n***** Test des GPIO ***** Touche 'c' pour sortir\r\n");
 	PRINTF("(P) Mode Polling (scrutation)\r\n");
-	PRINTF("(I) Mode IT (Interruption)\r\n");
+	PRINTF("(I) Mode Interrupt (Interruption)\r\n");
 
 	/***** Test sortie du menu *****/
 	do{
@@ -107,7 +107,7 @@ void print_menu_adc(void){
 void print_menu_uart(){
 	PRINTF("\r\n***** Test des TIMER ***** Touche 'c' pour sortir\r\n");
 	PRINTF("(P) Mode Polling (scrutation)\r\n");
-	PRINTF("(I) Mode IT (Interruption)\r\n");
+	PRINTF("(I) Mode Iterrupt (Interruption)\r\n");
 	PRINTF("(D) Mode DMA\r\n");
 
 	/***** Test sortie du menu *****/

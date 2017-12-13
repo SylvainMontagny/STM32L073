@@ -34,6 +34,8 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l0xx_hal.h"
 
+extern DMA_HandleTypeDef hdma_lpuart1_rx;
+
 extern DMA_HandleTypeDef hdma_spi2_rx;
 
 extern DMA_HandleTypeDef hdma_spi2_tx;
@@ -258,6 +260,24 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
     GPIO_InitStruct.Alternate = GPIO_AF6_LPUART1;
     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
+    /* Peripheral DMA init*/
+  
+    hdma_lpuart1_rx.Instance = DMA1_Channel3;
+    hdma_lpuart1_rx.Init.Request = DMA_REQUEST_5;
+    hdma_lpuart1_rx.Init.Direction = DMA_PERIPH_TO_MEMORY;
+    hdma_lpuart1_rx.Init.PeriphInc = DMA_PINC_DISABLE;
+    hdma_lpuart1_rx.Init.MemInc = DMA_MINC_ENABLE;
+    hdma_lpuart1_rx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+    hdma_lpuart1_rx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
+    hdma_lpuart1_rx.Init.Mode = DMA_NORMAL;
+    hdma_lpuart1_rx.Init.Priority = DMA_PRIORITY_LOW;
+    if (HAL_DMA_Init(&hdma_lpuart1_rx) != HAL_OK)
+    {
+      Error_Handler();
+    }
+
+    __HAL_LINKDMA(huart,hdmarx,hdma_lpuart1_rx);
+
     /* Peripheral interrupt init */
     HAL_NVIC_SetPriority(AES_RNG_LPUART1_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(AES_RNG_LPUART1_IRQn);
@@ -310,6 +330,9 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* huart)
     PC1     ------> LPUART1_TX 
     */
     HAL_GPIO_DeInit(GPIOC, GPIO_PIN_0|GPIO_PIN_1);
+
+    /* Peripheral DMA DeInit*/
+    HAL_DMA_DeInit(huart->hdmarx);
 
     /* Peripheral interrupt DeInit*/
     HAL_NVIC_DisableIRQ(AES_RNG_LPUART1_IRQn);
