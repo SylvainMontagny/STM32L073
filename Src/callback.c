@@ -15,7 +15,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 if(huart==&huart2){
 	/***** Toggle LED et affichage caractere saisi *****/
 	HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);
-	HAL_UART_Transmit(&huart2,&caractere,1,100);
+	PRINTF("%c",caractere);
+	//HAL_UART_Transmit(&huart2,&caractere,1,100);
 	/***** Gestion débordement du buffer d'entrée *****/
 	if(nbr_caractere==TAILLE_BUF_UART_RX){
 		nbr_caractere=0;

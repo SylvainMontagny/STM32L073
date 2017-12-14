@@ -105,7 +105,7 @@ void print_menu_adc(void){
 
 
 void print_menu_uart(){
-	PRINTF("\r\n***** Test des TIMER ***** Touche 'c' pour sortir\r\n");
+	PRINTF("\r\n***** Test UART (Low Power) ***** Touche 'c' pour sortir\r\n");
 	PRINTF("(P) Mode Polling (scrutation)\r\n");
 	PRINTF("(I) Mode Iterrupt (Interruption)\r\n");
 	PRINTF("(D) Mode DMA\r\n");
@@ -153,8 +153,11 @@ void VirtualCOM_Transmit( char *format, ... ){
 	va_list args;
 	va_start(args, format);
 
+	BACKUP_PRIMASK();	// Sauvegarde valeur "IT Enable"
+	DISABLE_IRQ();		// Reset  "IT Enable"
 	vsprintf(buffer,format,args);
-	HAL_UART_Transmit(&huart2,buffer,strlen(buffer),1000);
+	HAL_UART_Transmit(&huart2,buffer,strlen(buffer),200);
+	RESTORE_PRIMASK();	// Restore la valeur sauvegardée de "IT Enable"
   	va_end(args);
 }
 

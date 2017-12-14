@@ -43,6 +43,10 @@
 
 /* MACRO */
 #define PRINTF(...)		VirtualCOM_Transmit(__VA_ARGS__)
+#define BACKUP_PRIMASK()  uint32_t primask_bit= __get_PRIMASK()
+#define DISABLE_IRQ() __disable_irq()
+#define ENABLE_IRQ() __enable_irq()
+#define RESTORE_PRIMASK() __set_PRIMASK(primask_bit)
 
 /* USER CODE END Includes */
 
