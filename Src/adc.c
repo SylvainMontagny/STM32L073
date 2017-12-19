@@ -17,8 +17,10 @@ void test_adc(state etat){
 
 	switch(etat){
 		case TEST_ADC_IN1 :
+			PRINTF(RED);
 			PRINTF("ADC : Lecture analogique channel IN1\r\n");
 			PRINTF("Relier DAC_OUT [PA4 / A2] à IN1 [PA1 / A1] \r\n");
+			PRINTF(BLACK);
 			PRINTF("Press enter to Start\r\n");
 			PRINTF("Then Press enter to Hold one acquisition\r\n");
 			
@@ -53,8 +55,9 @@ void test_adc(state etat){
 			break;
 
 		case TEST_ADC_TEMPERATURE :
+			PRINTF(RED);
 			PRINTF("ADC : Lecture IN1 et Lecture Temperature Sensor (Internal)\r\n");
-			
+			PRINTF(BLACK);
 
 			while(sortir_etat==0){
 				/***** Gestion du DAC *****/
@@ -112,6 +115,8 @@ void test_adc(state etat){
 				PRINTF("DAC[%4u]\tADC[%4u]\tDAC-ADC[%4d][%6.1f mV]   \t\t\t\t  \r\n",tab_value_DAC[i],value_IN1,(int32_t)tab_value_DAC[i]-(int32_t)value_IN1, ((int32_t)tab_value_DAC[i]-(int32_t)value_IN1)*3300.0/4096);
 				HAL_ADC_Stop(&hadc);
 			}
+			while(ready!=1);	//Press Enter
+			ready=0;
 			break;
 
 		default:

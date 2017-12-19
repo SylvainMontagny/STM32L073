@@ -28,6 +28,8 @@ extern uint8_t captureDone;
 extern uint8_t ready;
 extern uint8_t lpuart_IT_Received;
 extern uint8_t lpuart_DMA_Received;
+extern uint8_t InputCapturePA11Calculate;
+extern uint8_t InputCapturePA11Start;
 
 extern uint32_t nbr_caractere;
 

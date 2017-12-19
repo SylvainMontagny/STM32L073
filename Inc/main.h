@@ -42,11 +42,22 @@
 #include <stdarg.h>
 
 /* MACRO */
-#define PRINTF(...)		VirtualCOM_Transmit(__VA_ARGS__)
-#define BACKUP_PRIMASK()  uint32_t primask_bit= __get_PRIMASK()
-#define DISABLE_IRQ() __disable_irq()
-#define ENABLE_IRQ() __enable_irq()
-#define RESTORE_PRIMASK() __set_PRIMASK(primask_bit)
+#define PRINTF(...)			VirtualCOM_Transmit(__VA_ARGS__)
+#define BACKUP_PRIMASK()  	uint32_t primask_bit= __get_PRIMASK()
+#define DISABLE_IRQ() 		__disable_irq()
+#define ENABLE_IRQ() 		__enable_irq()
+#define RESTORE_PRIMASK()	 __set_PRIMASK(primask_bit)
+#define START_MESURE		GPIOA->BSRR = GPIO_PIN_11
+#define STOP_MESURE			GPIOA->BRR = GPIO_PIN_11
+
+/***** Escape Caracters *****/
+#define TERMINAL_RESET				"\033[0m"			// Reset all attribute
+#define CURSOR_TOP_LEFT		"\033[0;0H"			// Cursor back to Top-Left
+#define CLEAR_SCREEN		"\033[0;0H\033[2J"	// Clear Screen
+#define BLACK				"\033[30m" 			// Black
+#define RED					"\033[31m"			// Red
+#define GREEN				"\033[32m"			// Green
+
 
 /* USER CODE END Includes */
 
@@ -60,6 +71,8 @@
 #define USART_RX_GPIO_Port GPIOA
 #define LD2_Pin GPIO_PIN_5
 #define LD2_GPIO_Port GPIOA
+#define MESURE_Pin GPIO_PIN_11
+#define MESURE_GPIO_Port GPIOA
 #define TMS_Pin GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
@@ -88,8 +101,9 @@ typedef enum {	MENU_START_PRINT,
 				TEST_RTC_SET,
 				TEST_RTC_ALARM,
 				MENU_TIMER_PRINT,
-				TEST_BASIC_TIM6,
-				TEST_INPUT_CAPTURE_TIM3,
+				TEST_TIM6_BASIC,
+				TEST_TIM3_IC_PA6,
+				TEST_TIM3_IC_PA11,
 				TEST_SPI,
 				MENU_UART_PRINT,
 				TEST_UART_POLLING,

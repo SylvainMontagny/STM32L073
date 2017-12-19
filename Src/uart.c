@@ -15,8 +15,10 @@ void test_uart(state etat){
 		case TEST_UART_POLLING :
 			HAL_UART_Init(&hlpuart1);
 			HAL_NVIC_DisableIRQ(AES_RNG_LPUART1_IRQn);
+			PRINTF(RED);
 			PRINTF("Mode Scrutation : Envoi/Reception d'un caractère\r\n");
 			PRINTF("Relier TX_LPUART1 [PC1] à RX_LP_UART1 [PC0]\r\n");
+			PRINTF(BLACK);
 			while(sortir_etat==0){
 				HAL_UART_Transmit(&hlpuart1,tx_buffer_lpuart,1,100);
 				HAL_UART_Receive(&hlpuart1,rx_buffer_lpuart,1,100);
@@ -37,8 +39,10 @@ void test_uart(state etat){
 
 		case TEST_UART_IT :
 			HAL_UART_Init(&hlpuart1);
+			PRINTF(RED);
 			PRINTF("\r\nMode IT : Envoi / Reception de 5 caractères\r\n");
 			PRINTF("Relier TX_LPUART1 [PC1] à RX_LP_UART1 [PC0]\r\n\r\n");
+			PRINTF(BLACK);
 			/***** Attente de 4 caractères en INTERRUPTION ****/
 			HAL_UART_Receive_IT(&hlpuart1,rx_buffer_lpuart,4);
 
@@ -69,8 +73,10 @@ void test_uart(state etat){
 
 		case TEST_UART_DMA :
 			HAL_UART_Init(&hlpuart1);
+			PRINTF(RED);
 			PRINTF("\r\nMode IT : Envoi / Reception de 5 caractères\r\n");
 			PRINTF("Relier TX_LPUART1 [PC1] à RX_LP_UART1 [PC0]\r\n\r\n");
+			PRINTF(BLACK);
 			/***** Attente de 4 caractères en INTERRUPTION DMA****/
 			HAL_UART_Receive_DMA(&hlpuart1,rx_buffer_lpuart,4);
 

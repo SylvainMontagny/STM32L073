@@ -8,7 +8,10 @@
 #include "print_menu.h"
 
 void print_menu(void){
+	PRINTF(CLEAR_SCREEN);
+	PRINTF(RED);
 	PRINTF("\r\n\r\n***** Programme TEST des périphériques *****\r\n ");
+	PRINTF(BLACK);
 	PRINTF("\t(g) GPIO\r\n");
 	PRINTF("\t(a) ADC\r\n");
 	PRINTF("\t(r) RTC\r\n");
@@ -39,10 +42,14 @@ void print_menu(void){
 }
 
 
-void print_menu_gpio(){
+void print_menu_gpio(void){
+	PRINTF(CLEAR_SCREEN);
+	PRINTF(RED);
 	PRINTF("\r\n***** Test des GPIO ***** Touche 'c' pour sortir\r\n");
+	PRINTF(BLACK);
 	PRINTF("(P) Mode Polling (scrutation)\r\n");
 	PRINTF("(I) Mode Interrupt (Interruption)\r\n");
+
 
 	/***** Test sortie du menu *****/
 	do{
@@ -60,8 +67,11 @@ void print_menu_gpio(){
 }
 
 
-void print_menu_rtc(){
+void print_menu_rtc(void){
+	PRINTF(CLEAR_SCREEN);
+	PRINTF(RED);
 	PRINTF("\r\n***** Test de la RTC ***** Touche 'c' pour sortir\r\n");
+	PRINTF(BLACK);
 	PRINTF("(G) Get Date-Heure\r\n");
 	PRINTF("(S) Set Date-Heure\r\n");
 	PRINTF("(A) Alarme (IT) toutes les secondes\r\n");
@@ -83,7 +93,10 @@ void print_menu_rtc(){
 }
 
 void print_menu_adc(void){
+	PRINTF(CLEAR_SCREEN);
+	PRINTF(RED);
 	PRINTF("\r\n***** Test de l'ADC ***** Touche 'c' pour sortir\r\n");
+	PRINTF(BLACK);
 	PRINTF("(I) IN1 Channel : PA0 (A0 Nucléo)\r\n");
 	PRINTF("(T) Temperature Internal\r\n");
 	PRINTF("(C) Calibration ADC\r\n");
@@ -104,8 +117,11 @@ void print_menu_adc(void){
 }
 
 
-void print_menu_uart(){
+void print_menu_uart(void){
+	PRINTF(CLEAR_SCREEN);
+	PRINTF(RED);
 	PRINTF("\r\n***** Test UART (Low Power) ***** Touche 'c' pour sortir\r\n");
+	PRINTF(BLACK);
 	PRINTF("(P) Mode Polling (scrutation)\r\n");
 	PRINTF("(I) Mode Iterrupt (Interruption)\r\n");
 	PRINTF("(D) Mode DMA\r\n");
@@ -127,21 +143,26 @@ void print_menu_uart(){
 }
 
 
-void print_menu_timer(){
+void print_menu_timer(void){
+	PRINTF(CLEAR_SCREEN);
+	PRINTF(RED);
 	PRINTF("\r\n***** Test de l'UART 2 ***** Touche 'c' pour sortir\r\n");
+	PRINTF(BLACK);
 	PRINTF("\t(B) Basic Timer TIM6\r\n");
-	PRINTF("\t(I) Input Capture TIM3\r\n");
+	PRINTF("\t(I) Input Capture TIM3 LED\r\n");
+	PRINTF("\t(M) Input Capture TIM3 PA11\r\n");
 
 	/***** Test sortie du menu *****/
 	do{
 		while(ready!=1);
 		ready=0;
 	}
-	while(rx_buffer_uart[0]!='I' && rx_buffer_uart[0]!='B' && rx_buffer_uart[0]!='c');
+	while(rx_buffer_uart[0]!='B' && rx_buffer_uart[0]!='I' && rx_buffer_uart[0]!='M' && rx_buffer_uart[0]!='c');
 
 	switch(rx_buffer_uart[0]){
-		case 'B' :etat_courant=TEST_BASIC_TIM6;				break;
-		case 'I' :etat_courant=TEST_INPUT_CAPTURE_TIM3; 	break;
+		case 'B' :etat_courant=TEST_TIM6_BASIC;				break;
+		case 'I' :etat_courant=TEST_TIM3_IC_PA6; 			break;
+		case 'M' :etat_courant=TEST_TIM3_IC_PA11;			break;
 		case 'c' :etat_courant=MENU_START_PRINT; 			break;
 	}
 

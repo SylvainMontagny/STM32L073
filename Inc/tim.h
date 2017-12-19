@@ -16,6 +16,8 @@ void test_timer(state etat);
 /***** Variables externes *****/
 extern uint8_t ready;
 extern uint8_t captureDone;
+extern uint8_t InputCapturePA11Calculate;
+extern uint8_t InputCapturePA11Start;
 
 extern uint16_t captures[2];
 

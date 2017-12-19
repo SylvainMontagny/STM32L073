@@ -80,6 +80,8 @@ uint8_t ready=0;
 uint8_t captureDone=0;
 uint8_t lpuart_IT_Received=0;
 uint8_t lpuart_DMA_Received=0;
+uint8_t InputCapturePA11Calculate=0;
+uint8_t InputCapturePA11Start=1;
 
 
 uint16_t captures[2];
@@ -164,10 +166,10 @@ int main(void)
   /***** Desactivation du LP_UART1 *****/
   HAL_UART_DeInit(&hlpuart1);
 
+ PRINTF(TERMINAL_RESET);
 
   while (1)
   {
-
 
   /* USER CODE END WHILE */
 
@@ -186,8 +188,9 @@ int main(void)
 	  case TEST_RTC_SET				: test_rtc(TEST_RTC_SET);				etat_courant=MENU_RTC_PRINT;	break;
 	  case TEST_RTC_ALARM			: test_rtc(TEST_RTC_ALARM);				etat_courant=MENU_RTC_PRINT;	break;
 	  case MENU_TIMER_PRINT			: print_menu_timer();													break;
-	  case TEST_BASIC_TIM6			: test_timer(TEST_BASIC_TIM6);			etat_courant=MENU_START_PRINT;	break;
-	  case TEST_INPUT_CAPTURE_TIM3	: test_timer(TEST_INPUT_CAPTURE_TIM3);	etat_courant=MENU_START_PRINT;	break;
+	  case TEST_TIM6_BASIC			: test_timer(TEST_TIM6_BASIC);			etat_courant=MENU_TIMER_PRINT;	break;
+	  case TEST_TIM3_IC_PA6			: test_timer(TEST_TIM3_IC_PA6);			etat_courant=MENU_TIMER_PRINT;	break;
+	  case TEST_TIM3_IC_PA11		: test_timer(TEST_TIM3_IC_PA11);		etat_courant=MENU_TIMER_PRINT;	break;
 	  case TEST_SPI					: test_spi();							etat_courant=MENU_START_PRINT;	break;
 	  case MENU_UART_PRINT			: print_menu_uart();													break;
 	  case TEST_UART_POLLING		: test_uart(TEST_UART_POLLING);			etat_courant=MENU_UART_PRINT;	break;
@@ -513,9 +516,9 @@ static void MX_TIM3_Init(void)
   TIM_IC_InitTypeDef sConfigIC;
 
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 2096;
+  htim3.Init.Prescaler = 9;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 2096;
+  htim3.Init.Period = 65535;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
   {
@@ -540,7 +543,7 @@ static void MX_TIM3_Init(void)
     Error_Handler();
   }
 
-  sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_RISING;
+  sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_BOTHEDGE;
   sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
   sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
   sConfigIC.ICFilter = 0;
@@ -617,7 +620,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, LD2_Pin|MESURE_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : PC13 */
   GPIO_InitStruct.Pin = GPIO_PIN_13;
@@ -625,12 +628,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : LD2_Pin */
-  GPIO_InitStruct.Pin = LD2_Pin;
+  /*Configure GPIO pins : LD2_Pin MESURE_Pin */
+  GPIO_InitStruct.Pin = LD2_Pin|MESURE_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI4_15_IRQn, 0, 0);

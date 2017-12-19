@@ -32,7 +32,10 @@ if(huart==&huart2){
 	else if(caractere==13){
 		HAL_UART_Transmit(&huart2,(uint8_t *)"\r\n",2,100);
 		rx_buffer_uart[nbr_caractere]=0;
-		if( !( ( (etat_courant!=TEST_RTC_SET) && (etat_courant!=TEST_ADC_IN1) ) && (nbr_caractere!=1) ) ) {
+		if( !( ( (etat_courant!=TEST_RTC_SET) 		&& (etat_courant!=TEST_ADC_IN1) ) 	 &&
+				 (etat_courant!=TEST_TIM3_IC_PA6) 	&& (etat_courant!=TEST_TIM3_IC_PA11) &&
+				 (etat_courant!=TEST_SPI)			&&  (etat_courant!=TEST_ADC_CALIB)	 &&
+				 (nbr_caractere!=1) ) ) {
 			ready=1;
 		}
 		nbr_caractere=0;
@@ -83,19 +86,23 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 
 
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim){
-	PRINTF("Passage dans IT DMA (Input Capture)\r\n");
-	
-	captureDone=1;
+	if(etat_courant == TEST_TIM3_IC_PA6){
+		captureDone=1;
+	}else {
+		InputCapturePA11Start=0;
+		InputCapturePA11Calculate=1;
+		}
 }
 
 
 void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi){
 	PRINTF("\r\nPassage dans IT DMA (SPI)\r\n");
 	/***** Buffer RX et TX APRES transmission *****/
-	PRINTF("\r\nBuffer RX et TX après transmission :\r\n");
-	PRINTF("TX : %2u %2u %2u %2u %2u %2u %2u %2u %2u %2u\r\n", tx_buffer_spi[0],tx_buffer_spi[1],tx_buffer_spi[2],tx_buffer_spi[3],tx_buffer_spi[4],tx_buffer_spi[5],tx_buffer_spi[6],tx_buffer_spi[7],tx_buffer_spi[8],tx_buffer_spi[9]);
-	PRINTF("RX : %2u %2u %2u %2u %2u %2u %2u %2u %2u %2u\r\n", rx_buffer_spi[0],rx_buffer_spi[1],rx_buffer_spi[2],rx_buffer_spi[3],rx_buffer_spi[4],rx_buffer_spi[5],rx_buffer_spi[6],rx_buffer_spi[7],rx_buffer_spi[8],rx_buffer_spi[9]);
-	
+	PRINTF("+------------------------------------------------------+\r\n");
+	PRINTF("| TX | %2u | %2u | %2u | %2u | %2u | %2u | %2u | %2u | %2u | %2u |\r\n", tx_buffer_spi[0],tx_buffer_spi[1],tx_buffer_spi[2],tx_buffer_spi[3],tx_buffer_spi[4],tx_buffer_spi[5],tx_buffer_spi[6],tx_buffer_spi[7],tx_buffer_spi[8],tx_buffer_spi[9]);
+	PRINTF("+------------------------------------------------------+\r\n");
+	PRINTF("| RX | %2u | %2u | %2u | %2u | %2u | %2u | %2u | %2u | %2u | %2u |\r\n", rx_buffer_spi[0],rx_buffer_spi[1],rx_buffer_spi[2],rx_buffer_spi[3],rx_buffer_spi[4],rx_buffer_spi[5],rx_buffer_spi[6],rx_buffer_spi[7],rx_buffer_spi[8],rx_buffer_spi[9]);
+	PRINTF("+------------------------------------------------------+\r\n");
 }
 
 /*void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi){
