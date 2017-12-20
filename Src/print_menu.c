@@ -146,7 +146,7 @@ void print_menu_uart(void){
 void print_menu_timer(void){
 	PRINTF(CLEAR_SCREEN);
 	PRINTF(RED);
-	PRINTF("\r\n***** Test de l'UART 2 ***** Touche 'c' pour sortir\r\n");
+	PRINTF("\r\n***** Test des Timers ***** Touche 'c' pour sortir\r\n");
 	PRINTF(BLACK);
 	PRINTF("\t(B) Basic Timer TIM6\r\n");
 	PRINTF("\t(I) Input Capture TIM3 LED\r\n");

@@ -17,6 +17,8 @@ void test_uart(state etat);
 
 /***** Variables externes *****/
 extern uint8_t ready;
+extern uint8_t AttenteSortieEtat;
+extern volatile uint8_t SortieEtat;
 extern uint8_t lpuart_IT_Received;
 extern uint8_t lpuart_DMA_Received;
 

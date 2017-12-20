@@ -108,7 +108,8 @@ typedef enum {	MENU_START_PRINT,
 				MENU_UART_PRINT,
 				TEST_UART_POLLING,
 				TEST_UART_IT,
-				TEST_UART_DMA
+				TEST_UART_DMA,
+				TEST_FIN_ETAT
 }state;
 
 /* USER CODE END Private defines */

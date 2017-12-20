@@ -15,6 +15,8 @@ void test_spi(void);
 
 /***** Variables externes *****/
 extern uint8_t ready;
+extern uint8_t AttenteSortieEtat;
+extern volatile uint8_t SortieEtat;
 
 extern uint8_t rx_buffer_spi[TAILLE_BUF_SPI];
 extern uint8_t tx_buffer_spi[TAILLE_BUF_SPI];

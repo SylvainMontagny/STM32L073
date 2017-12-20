@@ -9,6 +9,9 @@
 
 
 void test_spi(void){
+	uint8_t SpiTransmitValide=1;
+	uint32_t i;
+
 	PRINTF(CLEAR_SCREEN);
 	PRINTF(RED);
 	PRINTF("\r\n***** SPI (DMA) *****\r\n");
@@ -26,8 +29,20 @@ void test_spi(void){
 
 	/***** Sortie du menu *****/
 	HAL_Delay(20);				// Permet de laisser le temps au callback d'afficher tout le texte.
-
-	while(ready!=1);	//Press Enter
-	ready=0;
+	for(i=0;i<10;i++){
+		if(rx_buffer_spi[i]!=tx_buffer_spi[i]){
+			SpiTransmitValide=0;
+		}
+	}
+	if(SpiTransmitValide==1){
+		PRINTF("\r\nTransmission SPI Réussie !!!\r\n");
+	}
+	else{
+		PRINTF("\r\nTransmission SPI NON valide !\r\n");
+	}
+	SortieEtat=0;
+	AttenteSortieEtat=1;
+	while(SortieEtat==0);
+	AttenteSortieEtat=0;
 }
 

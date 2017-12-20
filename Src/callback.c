@@ -13,40 +13,50 @@
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 
 if(huart==&huart2){
-	/***** Toggle LED et affichage caractere saisi *****/
 	HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);
 	PRINTF("%c",caractere);
-	//HAL_UART_Transmit(&huart2,&caractere,1,100);
-	/***** Gestion débordement du buffer d'entrée *****/
+	rx_buffer_uart[nbr_caractere]=caractere;
+	nbr_caractere++;
+/***** Si on recoit '\b' *****/
+	if(caractere=='\b'){
+		nbr_caractere--;
+		PRINTF(" \b");
+	}
+
+/***** Si on recoit 13 *****/
+	if(caractere==13){
+		PRINTF("\r\n");
+		ready=1;
+		/***** TEST_RTC_SET : Attente de 8 caractere *****/
+		if(etat_courant==TEST_RTC_SET && nbr_caractere!=9 && AttenteSortieEtat!=1){
+				ready=0;
+				PRINTF("Nombre de caractere saisi invalide\r\n");
+			}
+		/***** Attente d'un seul caractere dans tous les menus *****/
+		if( 	(( etat_courant==MENU_START_PRINT || etat_courant==MENU_GPIO_PRINT ||
+				  etat_courant==MENU_ADC_PRINT   || etat_courant==MENU_RTC_PRINT  ||
+				  etat_courant==MENU_TIMER_PRINT || etat_courant==MENU_UART_PRINT ) && nbr_caractere!=2)){
+			ready=0;
+		}
+		else{
+
+		}
+		/***** Sortie d'état : Attente de 'c' *****/
+		if(AttenteSortieEtat==1 && nbr_caractere==2 && rx_buffer_uart[0]=='c'){
+				SortieEtat=1;
+				ready=0;
+			}
+
+		nbr_caractere=0;
+	}
+/***** Gestion Buffer Reception *****/
 	if(nbr_caractere==TAILLE_BUF_UART_RX){
 		nbr_caractere=0;
 	}
-	/***** Gestion du backspace pour suppréssion saisie *****/
-	if(caractere=='\b'){
-		if(nbr_caractere!=0) {
-			nbr_caractere--;
-		}
-		HAL_UART_Transmit(&huart2," \b",2,100);
-	}
-	/***** Gestion validation de la saisie *****/
-	else if(caractere==13){
-		HAL_UART_Transmit(&huart2,(uint8_t *)"\r\n",2,100);
-		rx_buffer_uart[nbr_caractere]=0;
-		if( !( ( (etat_courant!=TEST_RTC_SET) 		&& (etat_courant!=TEST_ADC_IN1) ) 	 &&
-				 (etat_courant!=TEST_TIM3_IC_PA6) 	&& (etat_courant!=TEST_TIM3_IC_PA11) &&
-				 (etat_courant!=TEST_SPI)			&&  (etat_courant!=TEST_ADC_CALIB)	 &&
-				 (nbr_caractere!=1) ) ) {
-			ready=1;
-		}
-		nbr_caractere=0;
-	}
-	else{
-		rx_buffer_uart[nbr_caractere]=caractere;
-		nbr_caractere++;
-	}
-	/***** Relance d'interruption prochain caractère *****/
+/***** Relance d'interruption prochain caractère *****/
 	if(HAL_UART_Receive_IT(&huart2,&caractere,1) != HAL_OK) PRINTF("\n HAL_UART_IT NOK\n");
 }
+
 
 else if(huart==&hlpuart1){
 	switch(etat_courant){
@@ -56,7 +66,7 @@ else if(huart==&hlpuart1){
 		break;
 
 		case 	TEST_UART_DMA :
-			PRINTF("\r\nLP_UART Receive  (DMA) :\t\t%s\r\n",rx_buffer_lpuart);
+			PRINTF("\r\nLP_UART Receive  (DMA) :\t%s\r\n",rx_buffer_lpuart);
 			lpuart_DMA_Received=1;
 		break;
 	}

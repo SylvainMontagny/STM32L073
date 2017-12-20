@@ -82,6 +82,8 @@ uint8_t lpuart_IT_Received=0;
 uint8_t lpuart_DMA_Received=0;
 uint8_t InputCapturePA11Calculate=0;
 uint8_t InputCapturePA11Start=1;
+uint8_t AttenteSortieEtat=0;
+volatile uint8_t SortieEtat=0;
 
 
 uint16_t captures[2];

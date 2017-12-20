@@ -15,6 +15,8 @@ void test_rtc(state etat);
 
 /***** Variables externes *****/
 extern uint8_t ready;
+extern uint8_t AttenteSortieEtat;
+extern volatile uint8_t SortieEtat;
 
 extern uint8_t tx_buffer_uart[TAILLE_BUF_UART_TX];
 extern uint8_t rx_buffer_uart[TAILLE_BUF_UART_RX];

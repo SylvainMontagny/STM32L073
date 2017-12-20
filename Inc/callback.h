@@ -30,6 +30,8 @@ extern uint8_t lpuart_IT_Received;
 extern uint8_t lpuart_DMA_Received;
 extern uint8_t InputCapturePA11Calculate;
 extern uint8_t InputCapturePA11Start;
+extern uint8_t AttenteSortieEtat;
+extern volatile uint8_t SortieEtat;
 
 extern uint32_t nbr_caractere;
 

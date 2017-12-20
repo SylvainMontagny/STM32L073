@@ -18,6 +18,8 @@ extern uint8_t ready;
 extern uint8_t captureDone;
 extern uint8_t InputCapturePA11Calculate;
 extern uint8_t InputCapturePA11Start;
+extern uint8_t AttenteSortieEtat;
+extern volatile uint8_t SortieEtat;
 
 extern uint16_t captures[2];
 
