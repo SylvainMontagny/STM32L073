@@ -40,7 +40,10 @@ Src/main.o: ../Src/main.c \
  C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Inc/rtc.h \
  C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Inc/gpio.h \
  C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Inc/adc.h \
- C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Inc/tim.h
+ C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Inc/tim.h \
+ C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Inc/spi.h \
+ C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Inc/callback.h \
+ C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Inc/uart.h
 
 C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Inc/main.h:
 
@@ -125,3 +128,9 @@ C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Inc/gpio.h:
 C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Inc/adc.h:
 
 C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Inc/tim.h:
+
+C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Inc/spi.h:
+
+C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Inc/callback.h:
+
+C:/Users/Sylvain/Desktop/STM32_Project/STM32L073_Nucleo/Inc/uart.h:

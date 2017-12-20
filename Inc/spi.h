@@ -13,17 +13,20 @@
 
 void test_spi(void);
 
-/***** Variables externes *****/
-extern uint8_t ready;
-extern uint8_t AttenteSortieEtat;
-extern volatile uint8_t SortieEtat;
-
+/***** Buffer UART2, LPUART, SPI *****/
+extern uint8_t tx_buffer_uart[TAILLE_BUF_UART_TX];
+extern uint8_t rx_buffer_uart[TAILLE_BUF_UART_RX];
 extern uint8_t rx_buffer_spi[TAILLE_BUF_SPI];
 extern uint8_t tx_buffer_spi[TAILLE_BUF_SPI];
 
-extern uint8_t tx_buffer_uart[TAILLE_BUF_UART_TX];
-extern uint8_t rx_buffer_uart[TAILLE_BUF_UART_RX];
+/***** Variables Gestion UART2 *****/
+extern uint8_t UART2_IsStringValid;
 
+/***** Variables Gestion sortie des Etats *****/
+extern uint8_t AttenteSortieEtat;
+extern volatile uint8_t SortieEtat;
+
+/***** Handle UART2, SPI *****/
 extern UART_HandleTypeDef huart2;
 extern SPI_HandleTypeDef hspi2;
 

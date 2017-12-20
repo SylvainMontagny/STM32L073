@@ -20,11 +20,11 @@ void print_menu(void){
 	PRINTF("\t(u) UART\r\n");
 
 	/***** Activation IT UART2 RX *****/
-	HAL_UART_Receive_IT(&huart2,&caractere,1);
+	HAL_UART_Receive_IT(&huart2,&UART2_CaractereRecu,1);
 	/***** Test sortie du menu *****/
 	do{
-		while(ready!=1);
-		ready=0;
+		while(UART2_IsStringValid!=1);
+		UART2_IsStringValid=0;
 	}
 	while(	rx_buffer_uart[0]!='g' && rx_buffer_uart[0]!='a' &&
 			rx_buffer_uart[0]!='r' && rx_buffer_uart[0]!='t' &&
@@ -53,8 +53,8 @@ void print_menu_gpio(void){
 
 	/***** Test sortie du menu *****/
 	do{
-		while(ready!=1);
-		ready=0;
+		while(UART2_IsStringValid!=1);
+		UART2_IsStringValid=0;
 	}
 	while(rx_buffer_uart[0]!='P' && rx_buffer_uart[0]!='I' && rx_buffer_uart[0]!='c');
 
@@ -78,8 +78,8 @@ void print_menu_rtc(void){
 
 	/***** Test sortie du menu *****/
 	do{
-		while(ready!=1);
-		ready=0;
+		while(UART2_IsStringValid!=1);
+		UART2_IsStringValid=0;
 	}
 	while(rx_buffer_uart[0]!='G' && rx_buffer_uart[0]!='S' && rx_buffer_uart[0]!='A' && rx_buffer_uart[0]!='c');
 
@@ -103,8 +103,8 @@ void print_menu_adc(void){
 
 	/***** Test sortie du menu *****/
 	do{
-			while(ready!=1);
-			ready=0;
+			while(UART2_IsStringValid!=1);
+			UART2_IsStringValid=0;
 		}
 		while(rx_buffer_uart[0]!='I' && rx_buffer_uart[0]!='T' && rx_buffer_uart[0]!='C' && rx_buffer_uart[0]!='c');
 
@@ -128,8 +128,8 @@ void print_menu_uart(void){
 
 	/***** Test sortie du menu *****/
 	do{
-		while(ready!=1);
-		ready=0;
+		while(UART2_IsStringValid!=1);
+		UART2_IsStringValid=0;
 	}
 	while(rx_buffer_uart[0]!='P' && rx_buffer_uart[0]!='I' && rx_buffer_uart[0]!='D' && rx_buffer_uart[0]!='c');
 
@@ -154,14 +154,14 @@ void print_menu_timer(void){
 
 	/***** Test sortie du menu *****/
 	do{
-		while(ready!=1);
-		ready=0;
+		while(UART2_IsStringValid!=1);
+		UART2_IsStringValid=0;
 	}
 	while(rx_buffer_uart[0]!='B' && rx_buffer_uart[0]!='I' && rx_buffer_uart[0]!='M' && rx_buffer_uart[0]!='c');
 
 	switch(rx_buffer_uart[0]){
 		case 'B' :etat_courant=TEST_TIM6_BASIC;				break;
-		case 'I' :etat_courant=TEST_TIM3_IC_PA6; 			break;
+		case 'I' :etat_courant=TEST_TIM3_IC_PA5; 			break;
 		case 'M' :etat_courant=TEST_TIM3_IC_PA11;			break;
 		case 'c' :etat_courant=MENU_START_PRINT; 			break;
 	}

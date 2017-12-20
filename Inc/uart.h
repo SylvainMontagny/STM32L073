@@ -11,22 +11,26 @@
 #include "main.h"
 #include "stm32l0xx_hal.h"
 
-
-
 void test_uart(state etat);
 
-/***** Variables externes *****/
-extern uint8_t ready;
-extern uint8_t AttenteSortieEtat;
-extern volatile uint8_t SortieEtat;
-extern uint8_t lpuart_IT_Received;
-extern uint8_t lpuart_DMA_Received;
-
+/***** Buffer UART2, LPUART *****/
 extern uint8_t tx_buffer_uart[TAILLE_BUF_UART_TX];
 extern uint8_t rx_buffer_uart[TAILLE_BUF_UART_RX];
 extern uint8_t rx_buffer_lpuart[TAILLE_BUF_LPUART_RX];
 extern uint8_t tx_buffer_lpuart[TAILLE_BUF_LPUART_TX];
 
+/***** Variables Gestion UART2 *****/
+extern uint8_t UART2_IsStringValid;
+
+/***** Variables Gestion LPUART *****/
+extern uint8_t LPUART_IsITReceived;
+extern uint8_t LPUART_IsDMAReceived;
+
+/***** Variables Gestion sortie des Etats *****/
+extern uint8_t AttenteSortieEtat;
+extern volatile uint8_t SortieEtat;
+
+/***** Handle UART2, LPUART *****/
 extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef hlpuart1;
 

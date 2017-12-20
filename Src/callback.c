@@ -8,53 +8,48 @@
 #include "callback.h"
 
 
-
-
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 
 if(huart==&huart2){
 	HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);
-	PRINTF("%c",caractere);
-	rx_buffer_uart[nbr_caractere]=caractere;
-	nbr_caractere++;
+	PRINTF("%c",UART2_CaractereRecu);
+	rx_buffer_uart[UART2_NbrCaractereRecu]=UART2_CaractereRecu;
+	UART2_NbrCaractereRecu++;
 /***** Si on recoit '\b' *****/
-	if(caractere=='\b'){
-		nbr_caractere--;
+	if(UART2_CaractereRecu=='\b'){
+		UART2_NbrCaractereRecu--;
 		PRINTF(" \b");
 	}
 
 /***** Si on recoit 13 *****/
-	if(caractere==13){
+	if(UART2_CaractereRecu==13){
 		PRINTF("\r\n");
-		ready=1;
+		UART2_IsStringValid=1;
 		/***** TEST_RTC_SET : Attente de 8 caractere *****/
-		if(etat_courant==TEST_RTC_SET && nbr_caractere!=9 && AttenteSortieEtat!=1){
-				ready=0;
+		if(etat_courant==TEST_RTC_SET && UART2_NbrCaractereRecu!=9 && AttenteSortieEtat!=1){
+				UART2_IsStringValid=0;
 				PRINTF("Nombre de caractere saisi invalide\r\n");
 			}
-		/***** Attente d'un seul caractere dans tous les menus *****/
+		/***** La chaine n'est pas valide si on n'a pas un seul caractère dans les menus suivants *****/
 		if( 	(( etat_courant==MENU_START_PRINT || etat_courant==MENU_GPIO_PRINT ||
 				  etat_courant==MENU_ADC_PRINT   || etat_courant==MENU_RTC_PRINT  ||
-				  etat_courant==MENU_TIMER_PRINT || etat_courant==MENU_UART_PRINT ) && nbr_caractere!=2)){
-			ready=0;
+				  etat_courant==MENU_TIMER_PRINT || etat_courant==MENU_UART_PRINT ) && UART2_NbrCaractereRecu!=2)){
+			UART2_IsStringValid=0;
 		}
-		else{
 
-		}
 		/***** Sortie d'état : Attente de 'c' *****/
-		if(AttenteSortieEtat==1 && nbr_caractere==2 && rx_buffer_uart[0]=='c'){
+		if(AttenteSortieEtat==1 && UART2_NbrCaractereRecu==2 && rx_buffer_uart[0]=='c'){
 				SortieEtat=1;
-				ready=0;
+				UART2_IsStringValid=0;
 			}
-
-		nbr_caractere=0;
+		UART2_NbrCaractereRecu=0;
 	}
 /***** Gestion Buffer Reception *****/
-	if(nbr_caractere==TAILLE_BUF_UART_RX){
-		nbr_caractere=0;
+	if(UART2_NbrCaractereRecu==TAILLE_BUF_UART_RX){
+		UART2_NbrCaractereRecu=0;
 	}
 /***** Relance d'interruption prochain caractère *****/
-	if(HAL_UART_Receive_IT(&huart2,&caractere,1) != HAL_OK) PRINTF("\n HAL_UART_IT NOK\n");
+	if(HAL_UART_Receive_IT(&huart2,&UART2_CaractereRecu,1) != HAL_OK) PRINTF("\n HAL_UART_IT NOK\n");
 }
 
 
@@ -62,12 +57,12 @@ else if(huart==&hlpuart1){
 	switch(etat_courant){
 		case	TEST_UART_IT :
 			PRINTF("\r\nLP_UART Receive (INTERRUPT) :\t%s\r\n",rx_buffer_lpuart);
-			lpuart_IT_Received=1;
+			LPUART_IsITReceived=1;
 		break;
 
 		case 	TEST_UART_DMA :
 			PRINTF("\r\nLP_UART Receive  (DMA) :\t%s\r\n",rx_buffer_lpuart);
-			lpuart_DMA_Received=1;
+			LPUART_IsDMAReceived=1;
 		break;
 	}
 }
@@ -96,11 +91,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 
 
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim){
-	if(etat_courant == TEST_TIM3_IC_PA6){
-		captureDone=1;
+	if(etat_courant == TEST_TIM3_IC_PA5){
+		IC_IsCaptureDone=1;
 	}else {
-		InputCapturePA11Start=0;
-		InputCapturePA11Calculate=1;
+		IC_PA11Start=0;
+		IC_PA11Calculate=1;
 		}
 }
 
@@ -115,8 +110,4 @@ void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi){
 	PRINTF("+------------------------------------------------------+\r\n");
 }
 
-/*void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi){
-	PRINTF("Passage dans IT DMA (SPI)\r\n");
-	
-	transmit_SPI_Done=1;
-}*/
+

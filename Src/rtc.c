@@ -14,8 +14,6 @@ void test_rtc(state etat){
 	RTC_DateTypeDef sDate;
 	char jour_str[3], mois_str[3], annee_str[3];
 	char heure_str[3], minute_str[3], seconde_str[3];
-	uint32_t jour, mois, annee;
-	uint32_t heure, minute, seconde;
 
 	char *tail_ptr;
 
@@ -42,8 +40,8 @@ void test_rtc(state etat){
 			while(DateValide==0){
 				/***** Enregistrement de Date *****/
 				PRINTF("\r\nSaisir la date au format xx/xx/xx\r\n");
-				while(ready==0);
-				ready=0;
+				while(UART2_IsStringValid==0);
+				UART2_IsStringValid=0;
 				jour_str[0]=rx_buffer_uart[0];
 				jour_str[1]=rx_buffer_uart[1];
 				sDate.Date=strtol(jour_str, &tail_ptr,10);
@@ -69,8 +67,8 @@ void test_rtc(state etat){
 			while(HeureValide==0){
 				/***** Enregistrement de l'heure *****/
 				PRINTF("\r\nSaisir l'heure au format xx:xx:xx\r\n");
-				while(ready==0);
-				ready=0;
+				while(UART2_IsStringValid==0);
+				UART2_IsStringValid=0;
 				heure_str[0]=rx_buffer_uart[0];
 				heure_str[1]=rx_buffer_uart[1];
 				sTime.Hours=strtol(heure_str, &tail_ptr,10);

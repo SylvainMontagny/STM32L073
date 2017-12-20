@@ -50,8 +50,8 @@ void test_uart(state etat){
 				HAL_UART_Transmit(&hlpuart1,tx_buffer_lpuart,4,100);
 
 				/***** Attente INTERRUPTION ****/
-				while(lpuart_IT_Received==0);
-				lpuart_IT_Received=0;
+				while(LPUART_IsITReceived==0);
+				LPUART_IsITReceived=0;
 
 				/***** Attente de 4 nouveaux caractères en INTERRUPTION ****/
 				HAL_UART_Receive_IT(&hlpuart1,rx_buffer_lpuart,4);
@@ -80,8 +80,8 @@ void test_uart(state etat){
 				HAL_UART_Transmit(&hlpuart1,tx_buffer_lpuart,4,100);
 
 				/***** Attente INTERRUPTION ****/
-				while(lpuart_DMA_Received==0);
-				lpuart_DMA_Received=0;
+				while(LPUART_IsDMAReceived==0);
+				LPUART_IsDMAReceived=0;
 
 				/***** Attente de 4 nouveaux caractères en INTERRUPTION ****/
 				HAL_UART_Receive_DMA(&hlpuart1,rx_buffer_lpuart,4);

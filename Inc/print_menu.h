@@ -17,15 +17,19 @@ void print_menu_rtc(void);
 void print_menu_adc(void);
 void print_menu_uart(void);
 void print_menu_timer(void);
-
-/***** Variables externes *****/
-extern uint8_t ready;
-extern uint8_t caractere;
-extern uint8_t tx_buffer_uart[TAILLE_BUF_UART_TX];
-extern uint8_t rx_buffer_uart[TAILLE_BUF_UART_RX];
+void VirtualCOM_Transmit( char *format, ... );
 
 extern state etat_courant;
 
+/***** Buffer UART2, LPUART, SPI *****/
+extern uint8_t tx_buffer_uart[TAILLE_BUF_UART_TX];
+extern uint8_t rx_buffer_uart[TAILLE_BUF_UART_RX];
+
+/***** Variables Gestion UART2 *****/
+extern uint8_t UART2_IsStringValid;
+extern uint8_t UART2_CaractereRecu;
+
+/***** Handle UART2 *****/
 extern UART_HandleTypeDef huart2;
 
 #endif /* PRINT_MENU_H_ */

@@ -40,6 +40,9 @@
 #include "gpio.h"
 #include "adc.h"
 #include "tim.h"
+#include "spi.h"
+#include "callback.h"
+#include "uart.h"
 
 
 /* USER CODE END Includes */
@@ -69,28 +72,35 @@ DMA_HandleTypeDef hdma_tim3_ch1;
 /* Private variables ---------------------------------------------------------*/
 
 state etat_courant=MENU_START_PRINT;
+
+/***** Buffer UART2, LPUART, et SPI *****/
 uint8_t rx_buffer_uart[TAILLE_BUF_UART_RX]={0};
 uint8_t tx_buffer_uart[TAILLE_BUF_UART_TX]={0};
 uint8_t rx_buffer_lpuart[TAILLE_BUF_LPUART_RX]={0};
 uint8_t tx_buffer_lpuart[TAILLE_BUF_LPUART_TX]={ 'A' , 'B' , 'C' , 'D' , '\0' };
 uint8_t rx_buffer_spi[TAILLE_BUF_SPI]={0};
 uint8_t tx_buffer_spi[TAILLE_BUF_SPI]={0,11,22,33,44,55,66,77,88,99};
-uint8_t caractere;
-uint8_t ready=0;
-uint8_t captureDone=0;
-uint8_t lpuart_IT_Received=0;
-uint8_t lpuart_DMA_Received=0;
-uint8_t InputCapturePA11Calculate=0;
-uint8_t InputCapturePA11Start=1;
+
+/***** Variables Gestion UART2 *****/
+uint8_t  UART2_IsStringValid=0;
+uint8_t  UART2_CaractereRecu;
+uint32_t UART2_NbrCaractereRecu=0;
+
+/***** variables Gestion Input Captur TIM3  *****/
+uint8_t  IC_IsCaptureDone=0;
+uint8_t  IC_PA11Calculate=0;
+uint8_t  IC_PA11Start=1;
+uint16_t IC_Captures[2];
+
+/***** Variables Gestion LPUART *****/
+uint8_t LPUART_IsITReceived=0;
+uint8_t LPUART_IsDMAReceived=0;
+
+/***** Variables Gestion sortie des Etats *****/
 uint8_t AttenteSortieEtat=0;
 volatile uint8_t SortieEtat=0;
 
-
-uint16_t captures[2];
-
-uint32_t nbr_caractere=0;
-
-
+/***** Variables Gestion RTC *****/
 RTC_DateTypeDef my_date;
 RTC_TimeTypeDef my_time;
 
@@ -191,7 +201,7 @@ int main(void)
 	  case TEST_RTC_ALARM			: test_rtc(TEST_RTC_ALARM);				etat_courant=MENU_RTC_PRINT;	break;
 	  case MENU_TIMER_PRINT			: print_menu_timer();													break;
 	  case TEST_TIM6_BASIC			: test_timer(TEST_TIM6_BASIC);			etat_courant=MENU_TIMER_PRINT;	break;
-	  case TEST_TIM3_IC_PA6			: test_timer(TEST_TIM3_IC_PA6);			etat_courant=MENU_TIMER_PRINT;	break;
+	  case TEST_TIM3_IC_PA5			: test_timer(TEST_TIM3_IC_PA5);			etat_courant=MENU_TIMER_PRINT;	break;
 	  case TEST_TIM3_IC_PA11		: test_timer(TEST_TIM3_IC_PA11);		etat_courant=MENU_TIMER_PRINT;	break;
 	  case TEST_SPI					: test_spi();							etat_courant=MENU_START_PRINT;	break;
 	  case MENU_UART_PRINT			: print_menu_uart();													break;

@@ -51,7 +51,7 @@
 #define STOP_MESURE			GPIOA->BRR = GPIO_PIN_11
 
 /***** Escape Caracters *****/
-#define TERMINAL_RESET				"\033[0m"			// Reset all attribute
+#define TERMINAL_RESET		"\033[0m"			// Reset all attribute
 #define CURSOR_TOP_LEFT		"\033[0;0H"			// Cursor back to Top-Left
 #define CLEAR_SCREEN		"\033[0;0H\033[2J"	// Clear Screen
 #define BLACK				"\033[30m" 			// Black
@@ -102,14 +102,13 @@ typedef enum {	MENU_START_PRINT,
 				TEST_RTC_ALARM,
 				MENU_TIMER_PRINT,
 				TEST_TIM6_BASIC,
-				TEST_TIM3_IC_PA6,
+				TEST_TIM3_IC_PA5,
 				TEST_TIM3_IC_PA11,
 				TEST_SPI,
 				MENU_UART_PRINT,
 				TEST_UART_POLLING,
 				TEST_UART_IT,
-				TEST_UART_DMA,
-				TEST_FIN_ETAT
+				TEST_UART_DMA
 }state;
 
 /* USER CODE END Private defines */

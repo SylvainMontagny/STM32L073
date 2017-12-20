@@ -20,7 +20,6 @@ void test_adc(state etat){
 			PRINTF("ADC : Lecture analogique channel IN1\r\n");
 			PRINTF("Relier DAC_OUT [PA4 / A2] à IN1 [PA1 / A1] \r\n");
 			PRINTF(BLACK);
-			//PRINTF("Press enter to Start\r\n");
 			PRINTF("Press enter to Hold one acquisition\r\n");
 			
 			SortieEtat=0;
@@ -112,8 +111,6 @@ void test_adc(state etat){
 			AttenteSortieEtat=0;
 			break;
 
-		default:
-			break;
 	}
 
 }
