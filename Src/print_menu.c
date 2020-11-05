@@ -10,8 +10,8 @@
 void print_menu(void){
 	PRINTF(CLEAR_SCREEN);
 	PRINTF(RED);
-	PRINTF("\r\n\r\n***** Programme TEST des périphériques *****\r\n ");
-	PRINTF(BLACK);
+	PRINTF("\r\n\r\n***** Programme TEST des peripheriques *****\r\n ");
+	PRINTF(TERMINAL_RESET);
 	PRINTF("\t(g) GPIO\r\n");
 	PRINTF("\t(a) ADC\r\n");
 	PRINTF("\t(r) RTC\r\n");
@@ -46,7 +46,7 @@ void print_menu_gpio(void){
 	PRINTF(CLEAR_SCREEN);
 	PRINTF(RED);
 	PRINTF("\r\n***** Test des GPIO ***** Touche 'c' pour sortir\r\n");
-	PRINTF(BLACK);
+	PRINTF(TERMINAL_RESET);
 	PRINTF("(P) Mode Polling (scrutation)\r\n");
 	PRINTF("(I) Mode Interrupt (Interruption)\r\n");
 
@@ -71,7 +71,7 @@ void print_menu_rtc(void){
 	PRINTF(CLEAR_SCREEN);
 	PRINTF(RED);
 	PRINTF("\r\n***** Test de la RTC ***** Touche 'c' pour sortir\r\n");
-	PRINTF(BLACK);
+	PRINTF(TERMINAL_RESET);
 	PRINTF("(G) Get Date-Heure\r\n");
 	PRINTF("(S) Set Date-Heure\r\n");
 	PRINTF("(A) Alarme (IT) toutes les secondes\r\n");
@@ -96,8 +96,8 @@ void print_menu_adc(void){
 	PRINTF(CLEAR_SCREEN);
 	PRINTF(RED);
 	PRINTF("\r\n***** Test de l'ADC ***** Touche 'c' pour sortir\r\n");
-	PRINTF(BLACK);
-	PRINTF("(I) IN1 Channel : PA0 (A0 Nucléo)\r\n");
+	PRINTF(TERMINAL_RESET);
+	PRINTF("(I) IN1 Channel : PA0 (A0 Nucleo)\r\n");
 	PRINTF("(T) Temperature Internal\r\n");
 	PRINTF("(C) Calibration ADC\r\n");
 
@@ -121,7 +121,7 @@ void print_menu_uart(void){
 	PRINTF(CLEAR_SCREEN);
 	PRINTF(RED);
 	PRINTF("\r\n***** Test UART (Low Power) ***** Touche 'c' pour sortir\r\n");
-	PRINTF(BLACK);
+	PRINTF(TERMINAL_RESET);
 	PRINTF("(P) Mode Polling (scrutation)\r\n");
 	PRINTF("(I) Mode Iterrupt (Interruption)\r\n");
 	PRINTF("(D) Mode DMA\r\n");
@@ -147,7 +147,7 @@ void print_menu_timer(void){
 	PRINTF(CLEAR_SCREEN);
 	PRINTF(RED);
 	PRINTF("\r\n***** Test des Timers ***** Touche 'c' pour sortir\r\n");
-	PRINTF(BLACK);
+	PRINTF(TERMINAL_RESET);
 	PRINTF("\t(B) Basic Timer TIM6\r\n");
 	PRINTF("\t(I) Input Capture TIM3 LED\r\n");
 	PRINTF("\t(M) Input Capture TIM3 PA11\r\n");
@@ -178,7 +178,7 @@ void VirtualCOM_Transmit( char *format, ... ){
 	DISABLE_IRQ();		// Reset  "IT Enable"
 	vsprintf(buffer,format,args);
 	HAL_UART_Transmit(&huart2,buffer,strlen(buffer),200);
-	RESTORE_PRIMASK();	// Restore la valeur sauvegardée de "IT Enable"
+	RESTORE_PRIMASK();	// Restore la valeur sauvegardï¿½e de "IT Enable"
   	va_end(args);
 }
 

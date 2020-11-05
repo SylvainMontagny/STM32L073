@@ -21,7 +21,7 @@ void test_rtc(state etat){
 		case TEST_RTC_GET :
 			SortieEtat=0;
 			while(SortieEtat==0){
-				/***** Récupération Time et Date *****/
+				/***** Rï¿½cupï¿½ration Time et Date *****/
 				HAL_RTC_GetTime(&hrtc,&my_time,RTC_FORMAT_BIN);
 				HAL_RTC_GetDate(&hrtc,&my_date,RTC_FORMAT_BIN);
 				/***** Affichage Time et Date *****/
@@ -59,14 +59,14 @@ void test_rtc(state etat){
 				}
 				else {
 					DateValide=1;
-					PRINTF("Date enregistrée dans la RTC\r\n");
+					PRINTF("Date saved in RTC\r\n");
 					}
 			}
 
 			HeureValide=0;
 			while(HeureValide==0){
 				/***** Enregistrement de l'heure *****/
-				PRINTF("\r\nSaisir l'heure au format xx:xx:xx\r\n");
+				PRINTF("\r\nEnter Time with format xx:xx:xx\r\n");
 				while(UART2_IsStringValid==0);
 				UART2_IsStringValid=0;
 				heure_str[0]=rx_buffer_uart[0];
@@ -86,7 +86,7 @@ void test_rtc(state etat){
 				}
 				else {
 					HeureValide=1;
-					PRINTF("Heure enregistrée dans la RTC\r\n");
+					PRINTF("Time saved in RTC\r\n");
 					}
 			}
 

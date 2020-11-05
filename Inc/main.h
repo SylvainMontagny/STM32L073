@@ -51,6 +51,7 @@
 #define STOP_MESURE			GPIOA->BRR = GPIO_PIN_11
 
 /***** Escape Caracters *****/
+//#define RESET_COLOR			"\u001b[0m"			// Reset color
 #define TERMINAL_RESET		"\033[0m"			// Reset all attribute
 #define CURSOR_TOP_LEFT		"\033[0;0H"			// Cursor back to Top-Left
 #define CLEAR_SCREEN		"\033[0;0H\033[2J"	// Clear Screen
@@ -80,14 +81,14 @@
 
 /* USER CODE BEGIN Private defines */
 
-/***** Taille du buffer d'émmission pour USART2 TX *****/
+/***** Taille du buffer d'ï¿½mmission pour USART2 TX *****/
 #define TAILLE_BUF_UART_RX	 	100
 #define TAILLE_BUF_UART_TX	 	100
 #define TAILLE_BUF_LPUART_RX	10
 #define TAILLE_BUF_LPUART_TX	10
 #define TAILLE_BUF_SPI		 	10
 
-/***** Machine d'état du projet *****/
+/***** Machine d'ï¿½tat du projet *****/
 typedef enum {	MENU_START_PRINT,
 				MENU_GPIO_PRINT,
 				TEST_GPIO_POLLING,

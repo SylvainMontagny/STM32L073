@@ -1,7 +1,7 @@
 /*
  * spi.c
  *
- *  Created on: 5 déc. 2017
+ *  Created on: 5 dï¿½c. 2017
  *      Author: Sylvain
  */
 
@@ -15,7 +15,7 @@ void test_spi(void){
 	PRINTF(CLEAR_SCREEN);
 	PRINTF(RED);
 	PRINTF("\r\n***** SPI (DMA) *****\r\n");
-	PRINTF("Relier MOSI(PC3) et MISO (PC2)\r\n\r\n");
+	PRINTF("Connect MOSI(PC3) with MISO (PC2)\r\n\r\n");
 	PRINTF(BLACK);
 	/***** Buffer RX et TX AVANT transmission *****/
 	PRINTF("Buffer RX et TX avant transmission :\r\n");
@@ -35,10 +35,10 @@ void test_spi(void){
 		}
 	}
 	if(SpiTransmitValide==1){
-		PRINTF("\r\nTransmission SPI Réussie !!!\r\n");
+		PRINTF("\r\nTransmission SPI OK !!!\r\n");
 	}
 	else{
-		PRINTF("\r\nTransmission SPI NON valide !\r\n");
+		PRINTF("\r\nTransmission SPI Failed !\r\n");
 	}
 	SortieEtat=0;
 	AttenteSortieEtat=1;

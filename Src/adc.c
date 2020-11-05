@@ -18,7 +18,7 @@ void test_adc(state etat){
 		case TEST_ADC_IN1 :
 			PRINTF(RED);
 			PRINTF("ADC : Lecture analogique channel IN1\r\n");
-			PRINTF("Relier DAC_OUT [PA4 / A2] à IN1 [PA1 / A1] \r\n");
+			PRINTF("Relier DAC_OUT [PA4 / A2]  a IN1 [PA1 / A1] \r\n");
 			PRINTF(BLACK);
 			PRINTF("Press enter to Hold one acquisition\r\n");
 			
@@ -66,7 +66,7 @@ void test_adc(state etat){
 				/***** Calcul et Afficage des valeurs converties *****/
 				tension=value_IN1*3.3/4096;
 				temperature = ( (130-30) * (value_TEMP - *TS_CAL1_ADDR) / (*TS_CAL2_ADDR - *TS_CAL1_ADDR) ) + 30;
-				PRINTF("Temperature :\t%5d °C\tADC[%4u]                   \n\r", temperature, value_TEMP);
+				PRINTF("Temperature :\t%5d Celsius\tADC[%4u]                   \n\r", temperature, value_TEMP);
 				PRINTF("Tension :\t%5.3f Volt\tADC[%4u]                   \n\r\r\n", tension,  value_IN1);
 				HAL_Delay(3000);
 				/***** Test Sortie du menu *****/

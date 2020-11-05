@@ -13,7 +13,7 @@ void test_gpio(state etat){
 	switch(etat){
 	case TEST_GPIO_POLLING :
 		PRINTF(RED);
-		PRINTF("Mode Scrutation\r\nLED (LD3) allumée si BP (USER) appuyé\r\n");
+		PRINTF("Mode Scrutation\r\nLED (LD3) ON si BP (USER) ON\r\n");
 		PRINTF(BLACK);
 		/***** Configuration PIN PC13 en Input *****/
 		HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);

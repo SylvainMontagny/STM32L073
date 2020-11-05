@@ -1,0 +1,6 @@
+callback.c:11:6:HAL_UART_RxCpltCallback	8	static
+callback.c:72:6:HAL_GPIO_EXTI_Callback	8	static
+callback.c:80:6:HAL_RTC_AlarmAEventCallback	16	static
+callback.c:88:6:HAL_TIM_PeriodElapsedCallback	8	static
+callback.c:93:6:HAL_TIM_IC_CaptureCallback	0	static
+callback.c:103:6:HAL_SPI_TxRxCpltCallback	64	static
