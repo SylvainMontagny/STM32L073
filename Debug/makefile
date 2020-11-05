@@ -15,6 +15,9 @@ RM := rm -rf
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
+ifneq ($(strip $(S_DEPS)),)
+-include $(S_DEPS)
+endif
 ifneq ($(strip $(S_UPPER_DEPS)),)
 -include $(S_UPPER_DEPS)
 endif
@@ -26,31 +29,51 @@ endif
 -include ../makefile.defs
 
 # Add inputs and outputs from these tool invocations to the build variables 
+EXECUTABLES += \
+STM32L073_Nucleo.elf \
+
+SIZE_OUTPUT += \
+default.size.stdout \
+
+OBJDUMP_LIST += \
+STM32L073_Nucleo.list \
+
+OBJCOPY_BIN += \
+STM32L073_Nucleo.bin \
+
 
 # All Target
-all: STM32L073_Nucleo.elf
+all: STM32L073_Nucleo.elf secondary-outputs
 
 # Tool invocations
 STM32L073_Nucleo.elf: $(OBJS) $(USER_OBJS) ../STM32L073RZTx_FLASH.ld
-	@echo 'Building target: $@'
-	@echo 'Invoking: MCU GCC Linker'
-	arm-none-eabi-gcc -mcpu=cortex-m0plus -mthumb -mfloat-abi=soft -specs=nosys.specs -specs=nano.specs -u _printf_float -T"../STM32L073RZTx_FLASH.ld" -Wl,-Map=output.map -Wl,--gc-sections -lm -o "STM32L073_Nucleo.elf" @"objects.list" $(USER_OBJS) $(LIBS)
+	arm-none-eabi-gcc -o "STM32L073_Nucleo.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0plus -T"../STM32L073RZTx_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32L073_Nucleo.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
-	$(MAKE) --no-print-directory post-build
+
+default.size.stdout: $(EXECUTABLES)
+	arm-none-eabi-size  $(EXECUTABLES)
+	@echo 'Finished building: $@'
+	@echo ' '
+
+STM32L073_Nucleo.list: $(EXECUTABLES)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "STM32L073_Nucleo.list"
+	@echo 'Finished building: $@'
+	@echo ' '
+
+STM32L073_Nucleo.bin: $(EXECUTABLES)
+	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "STM32L073_Nucleo.bin"
+	@echo 'Finished building: $@'
+	@echo ' '
 
 # Other Targets
 clean:
 	-$(RM) *
 	-@echo ' '
 
-post-build:
-	-@echo 'Generating binary and Printing size information:'
-	arm-none-eabi-objcopy -O binary "STM32L073_Nucleo.elf" "STM32L073_Nucleo.bin"
-	arm-none-eabi-size "STM32L073_Nucleo.elf"
-	-@echo ' '
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_BIN)
 
 .PHONY: all clean dependents
-.SECONDARY: post-build
+.SECONDARY:
 
 -include ../makefile.targets

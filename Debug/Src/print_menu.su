@@ -1,0 +1,7 @@
+print_menu.c:172:6:VirtualCOM_Transmit	144	static,ignoring_inline_asm
+print_menu.c:10:6:print_menu	8	static
+print_menu.c:45:6:print_menu_gpio	8	static
+print_menu.c:70:6:print_menu_rtc	8	static
+print_menu.c:95:6:print_menu_adc	8	static
+print_menu.c:120:6:print_menu_uart	8	static
+print_menu.c:146:6:print_menu_timer	8	static
