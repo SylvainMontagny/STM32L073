@@ -38,6 +38,9 @@ default.size.stdout \
 OBJDUMP_LIST += \
 STM32L073_Nucleo.list \
 
+OBJCOPY_HEX += \
+STM32L073_Nucleo.hex \
+
 OBJCOPY_BIN += \
 STM32L073_Nucleo.bin \
 
@@ -61,6 +64,11 @@ STM32L073_Nucleo.list: $(EXECUTABLES)
 	@echo 'Finished building: $@'
 	@echo ' '
 
+STM32L073_Nucleo.hex: $(EXECUTABLES)
+	arm-none-eabi-objcopy  -O ihex $(EXECUTABLES) "STM32L073_Nucleo.hex"
+	@echo 'Finished building: $@'
+	@echo ' '
+
 STM32L073_Nucleo.bin: $(EXECUTABLES)
 	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "STM32L073_Nucleo.bin"
 	@echo 'Finished building: $@'
@@ -71,7 +79,7 @@ clean:
 	-$(RM) *
 	-@echo ' '
 
-secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_BIN)
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX) $(OBJCOPY_BIN)
 
 .PHONY: all clean dependents
 .SECONDARY:
