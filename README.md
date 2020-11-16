@@ -2,7 +2,6 @@
 
 Projet réalisé sous STM32CubeIDE
 
-
 ### Programmation de la carte :
 1. Télécharger le fichier [/Debug/STM32L073_Nucleo.bin](https://github.com/SylvainMontagny/STM32L073/blob/master/Debug/STM32L073_Nucleo.bin) depuis Github
 2. Brancher votre carte Nucléo L073RZ sur un port USB de votre ordinateur, un nouveau lecteur [ NODE_L073RZ ] doit apparaître dans votre explorateur
